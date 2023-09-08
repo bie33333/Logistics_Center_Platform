@@ -23,13 +23,12 @@ DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '管理员id',
   `account` varchar(255) NOT NULL COMMENT '管理员账号',
   `password` varchar(255) NOT NULL COMMENT '管理员登录密码',
   `name` varchar(255) NOT NULL COMMENT '管理员姓名',
   `phone` varchar(255) NOT NULL COMMENT '管理员联系方式',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`account`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +37,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'yangkai','123456','杨楷','189****5927'),(2,'kangmingqi','12345','康明淇','139****5621'),(3,'yuqi','123456','鱼鳍','168****3358');
+INSERT INTO `admin` VALUES ('kangmingqi','12345','康明淇','139****5621'),('yangkai','123456','杨楷','189****5927'),('yuqi','123456','鱼鳍','168****3358');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +133,6 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '用户Id',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户姓名',
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户联系电话',
   `account` varchar(255) NOT NULL COMMENT '用户账号',
@@ -142,8 +140,8 @@ CREATE TABLE `user` (
   `age` int DEFAULT NULL COMMENT '用户年龄',
   `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户性别',
   `address` varchar(255) DEFAULT NULL COMMENT '用户住址',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`account`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +150,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'张三','11111111111','zhangsan','123456',20,'男','陕西省西安市经开区'),(2,'李四','22222222222','lisi','1234567',21,'男','陕西省西安市未央区'),(3,'王五','33333333333','wangwu','123456',19,'男','陕西省西安市浐灞区'),(4,'赵六','44444444444','zhaoliu','12345',20,'女','陕西省西安市临潼区'),(5,'钱七','55555555555','qianqi','123456',19,'女 ','陕西省西安市新城区'),(6,'吴八','66666666666','wuba','123456',23,'男','陕西省西安市莲湖区'),(7,'郑九','77777777777','zhengjiu','123456',22,'男','陕西省西安市碑林区');
+INSERT INTO `user` VALUES ('李四','22222222222','lisi','1234567',21,'男','陕西省西安市未央区'),('钱七','55555555555','qianqi','123456',19,'女 ','陕西省西安市新城区'),('王五','33333333333','wangwu','123456',19,'男','陕西省西安市浐灞区'),('吴八','66666666666','wuba','123456',23,'男','陕西省西安市莲湖区'),('张三','11111111111','zhangsan','123456',20,'男','陕西省西安市经开区'),('赵六','44444444444','zhaoliu','12345',20,'女','陕西省西安市临潼区'),('郑九','77777777777','zhengjiu','123456',22,'男','陕西省西安市碑林区');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-08 15:21:40
+-- Dump completed on 2023-09-08 16:32:27
