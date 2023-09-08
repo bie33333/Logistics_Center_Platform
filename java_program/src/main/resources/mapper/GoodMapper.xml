@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.G346.mapper.GoodMapper">
+  <resultMap id="BaseResultMap" type="org.G346.pojo.Good">
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+  </resultMap>
+  <insert id="insert" parameterType="org.G346.pojo.Good">
+    insert into good (name, integral, stock
+      )
+    values (#{name,jdbcType=VARCHAR}, #{integral,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select name, integral, stock
+    from good
+  </select>
+</mapper>

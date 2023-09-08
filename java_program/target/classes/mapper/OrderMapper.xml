@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.G346.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="org.G346.pojo.Order">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="good_id" jdbcType="VARCHAR" property="goodId" />
+    <result column="car_id" jdbcType="VARCHAR" property="carId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.G346.pojo.Order">
+    insert into order (id, user_id, good_id, 
+      car_id, phone, destination, 
+      describe)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{goodId,jdbcType=VARCHAR}, 
+      #{carId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.G346.pojo.Order">
+    update order
+    set user_id = #{userId,jdbcType=VARCHAR},
+      good_id = #{goodId,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, user_id, good_id, car_id, phone, destination, describe
+    from order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, good_id, car_id, phone, destination, describe
+    from order
+  </select>
+</mapper>
