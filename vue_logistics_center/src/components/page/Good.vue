@@ -17,19 +17,21 @@
   
     <div>
       <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
-        <el-table-column prop="goodId" label="物品编号" width="120">
+        <el-table-column prop="goodId" label="物品编号" width="180">
         </el-table-column>
         <el-table-column prop="goodName" label="物品名称" width="120">
         </el-table-column>
-        <el-table-column prop="location" label="储存仓库" width="180">
+        <el-table-column prop="location" label="储存仓库" width="120">
         </el-table-column>
-        <el-table-column prop="number" label="数量" width="100">
+        <el-table-column prop="number" label="数量" width="120">
         </el-table-column>
-        <el-table-column prop="description" label="物品描述" width="200">
+        <el-table-column prop="description" label="物品描述" width="450">
         </el-table-column>
         <el-table-column prop="operate" label="操作">
-          <el-button type="success">修改</el-button>
-          <el-button type="danger">删除</el-button>
+          <template slot-scope="scope">
+            <el-button type="success" @click="update(scope.row)">修改</el-button>
+            <el-button type="danger">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -132,13 +134,12 @@ export default {
             rules: {
                 goodId: [
                     { required: true, message: '请输入物品编号', trigger: 'blur' },
-                    { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
+                    { min: 2, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
                     { validator: checkDuplicate, trigger: 'blur' }
                 ],
 
                 goodName: [
                     { required: true, message: '请输入物品名称', trigger: 'blur' },
-                    { min: 6, max: 10, message: '长度在2至15个字符之间', trigger: 'blur' }
                 ],
 
                 location:[
@@ -172,6 +173,17 @@ export default {
         resetForm() {
             this.$refs.form.resetFields();
         },
+        update(row){
+          this.centerDialogVisible = true;
+          this.$nextTick(() => {
+            this.resetForm();
+            this.form.goodId = row.goodId;
+            this.form.goodName = row.goodName;
+            this.form.location = row.location;
+            this.form.number = row.number;
+            this.form.description = row.description;
+          }) 
+        }
     },
 
     mounted: {

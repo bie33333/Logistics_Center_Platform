@@ -26,11 +26,13 @@
             </el-table-column>
             <el-table-column prop="carName" label="车辆名称" width="120">
             </el-table-column>
-            <el-table-column prop="description" label="物流描述" width="120">
+            <el-table-column prop="description" label="物流描述" width="300">
             </el-table-column>
             <el-table-column prop="operate" label="操作" width="200">
-              <el-button type="success">修改</el-button>
-              <el-button type="danger">删除</el-button>
+              <template slot-scope="scope">
+                <el-button type="success" @click="update(scope.row)">修改</el-button>
+                <el-button type="danger">删除</el-button>
+              </template>
             </el-table-column>
           </el-table>
         </div>
@@ -113,7 +115,7 @@ let checkDuplicate =(rule,value,callback) => {
       addresseePhone:'98745612300',
       address:'陕西省西安市',
       carName:'测试车辆1',
-      description: '测试车辆'
+      description: '测试物流信息'
     }],
 
       centerDialogVisible: false,
@@ -149,7 +151,6 @@ let checkDuplicate =(rule,value,callback) => {
 
             goodName: [
               { required: true, message: '请输入物品名称', trigger: 'blur' },
-              { min: 6, max: 10, message: '长度在2至15个字符之间', trigger: 'blur' }
             ],
 
             number: [
@@ -171,7 +172,6 @@ let checkDuplicate =(rule,value,callback) => {
 
             carName: [
               { required: true, message: '请输入车辆名称', trigger: 'blur' },
-              { min: 6, max: 10, message: '长度在2至15个字符之间', trigger: 'blur' }
             ],
 
             description: [
@@ -196,6 +196,22 @@ methods: {
   resetForm() {
       this.$refs.form.resetFields();
   },
+  update(row){
+          this.centerDialogVisible = true;
+          this.$nextTick(() => {
+            this.resetForm();
+            this.form.orderId = row.orderId;
+            this.form.userName = row.userName;
+            this.form.userPhone = row.userPhone;
+            this.form.goodName = row.goodName;
+            this.form.number = row.number;
+            this.form.addressee = row.addressee;
+            this.form.addresseePhone = row.addresseePhone;
+            this.form.address = row.address;
+            this.form.carName = row.carName;
+            this.form.description = row.description;
+          }) 
+        }
 },
 
 mounted: {

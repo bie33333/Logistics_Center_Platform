@@ -18,11 +18,13 @@
             </el-table-column>
             <el-table-column prop="phone" label="联系电话" width="180">
             </el-table-column>
-            <el-table-column prop="address" label="地址" width="180">
+            <el-table-column prop="address" label="地址" width="300">
             </el-table-column>
             <el-table-column prop="operate" label="操作">
-              <el-button type="success" @click="update(scope.row)">修改</el-button>
-              <el-button type="danger">删除</el-button>
+              <template slot-scope="scope">
+                <el-button type="success" @click="update(scope.row)">修改</el-button>
+                <el-button type="danger">删除</el-button>
+              </template>
             </el-table-column>
           </el-table>
         </div>
@@ -64,8 +66,8 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">Cancel</el-button>
-            <el-button type="primary">Confirm</el-button>
+            <el-button @click="centerDialogVisible = false">取消</el-button>
+            <el-button type="primary">确认</el-button>
           </span>
         </el-dialog>
 
