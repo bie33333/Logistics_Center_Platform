@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Order {
     private String id;
+    private String userAccount;
     private String userName;
     private String userPhone;
     private String goodId;
@@ -23,6 +24,14 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
 
     public String getUserName() {
