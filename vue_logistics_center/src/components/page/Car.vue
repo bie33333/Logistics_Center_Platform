@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { carList,carRules,carForm,stateList } from "@/js/car.js";
 export default {
     data() {
 
@@ -87,56 +88,15 @@ let checkDuplicate =(rule,value,callback) => {
   return {
       carName:'',
       state:'',
-
-      tableData: [{
-      carId:'165askda',
-      carName:'测试车辆1',
-      state:'待出车',
-      description: '测试车辆'
-    }],
-
-    states:[
-      {
-        value:'待出车',
-        label:'待出车'
-      },
-      {
-        value:'出车中',
-        label:'出车中'
-      },
-    ],
-
+      tableData: carList(),
+      states: stateList(),
       centerDialogVisible: false,
-      form:{
-          carId:'',
-          carName:'',
-          state:'',
-          description:''
-      },
-
-      rules: {
-          carId: [
-              { required: true, message: '请输入车辆编号', trigger: 'blur' },
-              { min: 2, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
-              { validator: checkDuplicate, trigger: 'blur' }
-          ],
-
-          carName: [
-              { required: true, message: '请输入车辆名称', trigger: 'blur' },
-          ],
-
-          state:[
-          { required: true, message: '请选择车辆状态', trigger: 'change' },
-          ],
-
-          description: [
-              { required: true, message: '请输入车辆描述', trigger: 'blur' },
-          ],
-      }
-      
+      form: carForm(),
   }
 },
-
+created() {
+  rules = carRules();
+},
 methods: {
   resetParam(){
       this.carName = '';
