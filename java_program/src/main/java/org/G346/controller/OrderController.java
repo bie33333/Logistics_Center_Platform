@@ -201,8 +201,47 @@ public class OrderController {
         }
 
         Order order = orderService.selectByPrimaryKey(id);
-        
-        orderService.updateByPrimaryKey(order);
+
+        User user = userService.selectByPrimaryKey(userAccount);
+        if (user == null) {
+            return Result.error(400, "修改失败，用户不存在！", null);
+        } else if (user.getUserName()!=userName||user.getUserPhone()!=userPhone) {
+            return Result.error(400,"用户姓名或电话错误！",null);
+        }else {
+            order.setUserAccount(userAccount);
+            order.setUserName(userName);
+            order.setUserPhone(userPhone);
+        }
+
+        Good good= goodService.selectByPrimaryKey(goodId);
+        if (good == null) {
+            return Result.error(400, "修改失败，物品不存在！", null);
+        } else if (good.getName()!=goodName) {
+            return Result.error(400,"物品名错误！",null);
+        }else {
+            order.setGoodId(goodId);
+            order.setGoodName(goodName);
+        }
+
+        Car car =carService.selectByPrimaryKey(carId);
+        if (car == null) {
+            return Result.error(400, "修改失败，车辆不存在！", null);
+        } else if (car.getName()!=carName) {
+            return Result.error(400,"车辆名错误！",null);
+        }else {
+            order.setCarId(carId);
+            order.setCarName(carName);
+        }
+        order.setAddressee(addressee);
+        order.setAddressPhone(addressPhone);
+        order.setAddress(address);
+        order.setOrderDescribe(orderDescribe);
+
+        order.setOrderStatus(Integer.parseInt(orderStatus));
+        order.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
+
+        int row = orderService.updateByPrimaryKey(order);
+
         return Result.ok();
 
 
