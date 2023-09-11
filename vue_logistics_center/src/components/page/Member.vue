@@ -165,6 +165,7 @@ export default {
         handleAdd(){
           this.$refs.form.validate((valid)=>{
             if(valid){
+              console.log(this.form)
               addUser(this.form).then(res => {
                 console.log(res);
               })
