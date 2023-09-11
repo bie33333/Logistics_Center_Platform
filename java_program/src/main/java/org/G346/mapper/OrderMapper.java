@@ -11,6 +11,6 @@ public interface OrderMapper {
     Order selectByPrimaryKey(String id);
 
     List<Order> selectAll();
-
+    List<Order> findOrderById(String id);
     int updateByPrimaryKey(Order row);
 }
