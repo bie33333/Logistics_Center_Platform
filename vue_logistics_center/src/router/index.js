@@ -9,7 +9,7 @@ export default new Router({
             path: '/login', component: ()=> import('../components/page/Login.vue'),
         },
         {
-            path: '/home', component: ()=> import('../components/common/Home.vue')
+            path: '/home', component: ()=> import('../components/common/Home.vue'), redirect: '/index/personalCenter'
         },
         // {
         //     path: '/memberView', component: ()=> import('../components/common/MemberView.vue'),
@@ -20,13 +20,13 @@ export default new Router({
             redirect: '/index/dashboard',
             children: [
                 { path: 'dashboard', component: ()=> import('../components/page/Dashboard.vue'), meta: {title: '系统首页'}},
-                // { path: 'member/member', component: ()=> import('../components/page/Member.vue'), meta: {title: '会员列表'}},
-                // { path: 'card/card', component: ()=> import('../components/page/Card.vue'), meta: {title: '会员卡列表'}},
-                // { path: 'card/record', component: ()=> import('../components/page/Record.vue'), meta: {title: '交易记录'}},
-                // { path: 'integral/integral', component: ()=> import('../components/page/Good.vue'), meta: {title: '商品列表'}},
-                // { path: 'care', component: ()=> import('../components/page/Care.vue'), meta: {title: '会员关怀'}},
+                { path: 'member', component: ()=> import('../components/page/Member.vue'), meta: {title: '用户管理'}},
+                { path: 'car', component: ()=> import('../components/page/Car.vue'), meta: {title: '车辆列表'}},
+                { path: 'order', component: ()=> import('../components/page/Order.vue'), meta: {title: '订单管理'}},
+                { path: 'logistics', component: ()=> import('../components/page/Logistics.vue'), meta: {title: '物流管理'}},
+                { path: 'personalCenter', component: ()=> import('../components/page/PersonalCenter.vue'), meta: {title: '个人中心'}},
                 // { path: 'charts', component: ()=> import('../components/page/Charts.vue'), meta: {title: '统计数据'}},
-                { path: 'card/card', component: ()=> import('../components/page/Test.vue')},
+                { path: 'good', component: ()=> import('../components/page/Good.vue'),meta: {title: '物品管理'}},
                 { path: '*', redirect: '/index/dashboard'}
             ]
         },

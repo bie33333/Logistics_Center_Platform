@@ -5,7 +5,7 @@
             <i v-if="!collapse" class="el-icon-s-fold"></i>
             <i v-else class="el-icon-s-unfold"></i>
         </div>
-        <div class="logo">物流管理系统</div>
+        <div class="logo">欢迎使用企业物流中心平台</div>
         <div class="header-right">
             <!-- 用户头像 -->
             <div class="user-avatar">
@@ -80,7 +80,7 @@ export default {
 
 .logo {
     float: left;
-    width: 250px;
+    width: 300px;
 }
 
 .header-right {

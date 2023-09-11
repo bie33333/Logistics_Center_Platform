@@ -16,23 +16,13 @@ export default {
             collapse: false,
             menuList: [
                 {index: 'dashboard', title: '系统首页', icon: 'el-icon-s-home'},
-                {index: 'member', title: '会员管理', icon: 'el-icon-user',
-                    children: [
-                        {index: 'member', title: '会员列表'}
-                    ]
-                },
-                {index: 'card',  title: '会员卡管理', icon: 'el-icon-document-copy',
-                    children: [
-                        {index: 'card', title: '会员卡列表'},
-                        {index: 'record', title: '交易记录'}
-                    ]
-                },
-                {index: 'integral', title: '商品管理',icon: 'el-icon-shopping-cart-2',
-                    children: [
-                        {index: 'integral', title: '商品列表'}
-                    ]
-                },
-                {index: 'care', title: '会员关怀', icon: 'el-icon-date'},
+                {index: 'personalCenter', title: '个人中心', icon: 'el-icon-user'},
+                {index: 'member', title: '用户管理', icon: 'el-icon-user'},
+                {index: 'good',  title: '物品管理', icon: 'el-icon-document-copy'},
+                {index: 'car', title: '车辆管理', icon: 'el-icon-date'},
+                {index: 'order',  title: '订单管理', icon: 'el-icon-document-copy'},
+                {index: 'logistics',  title: '物流管理', icon: 'el-icon-document-copy'},
+
                 // {index: 'charts',title: '统计数据', icon: 'el-icon-odometer'},
             ]
         };

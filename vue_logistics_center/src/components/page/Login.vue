@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">物流管理系统</div>
+            <div class="ms-title">企业物流中心平台</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item>
                     <el-select v-model="param.role" clearable placeholder="登录角色">
