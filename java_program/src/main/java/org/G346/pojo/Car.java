@@ -9,16 +9,6 @@ public class Car {
 
     private String describe;
 
-    @Override
-    public String toString() {
-        return "Car{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                ", describe='" + describe + '\'' +
-                '}';
-    }
-
     public String getId() {
         return id;
     }

@@ -2,18 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.G346.mapper.GoodMapper">
   <resultMap id="BaseResultMap" type="org.G346.pojo.Good">
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="integral" jdbcType="INTEGER" property="integral" />
-    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="warehouse" jdbcType="VARCHAR" property="warehouse" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="good_describe" jdbcType="VARCHAR" property="good_describe" />
   </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from good
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="org.G346.pojo.Good">
-    insert into good (name, integral, stock
-      )
-    values (#{name,jdbcType=VARCHAR}, #{integral,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}
-      )
+    insert into good (id, name, warehouse, 
+      number, good_describe)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{warehouse,jdbcType=VARCHAR}, 
+      #{number,jdbcType=INTEGER},#{good_describe,jdbcType=VARCHAR})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="org.G346.pojo.Good">
+    update good
+    set name = #{name,jdbcType=VARCHAR},
+      warehouse = #{warehouse,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      good_describe = #{good_describe,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, warehouse, number,good_describe
+    from good
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findGoodById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, warehouse, number,good_describe
+    from good
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select name, integral, stock
+    select id, name, warehouse, number,good_describe
     from good
   </select>
 </mapper>

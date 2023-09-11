@@ -1,64 +1,77 @@
 package org.G346.pojo;
 
 public class User {
-    private String id;
 
-    private String name;
 
-    private String phone;
+    private String userAccount;
 
-    private Integer status;
+    private String userPassword;
 
-    private String email;
+    private String userName;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", status=" + status +
-                ", email='" + email + '\'' +
-                '}';
+    private Integer userAge;
+
+    private String userSex;
+
+    private String userPhone;
+
+    private String userAddress;
+
+
+
+    public String getUserAccount() {
+        return userAccount;
     }
 
-    public String getId() {
-        return id;
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount == null ? null : userAccount.trim();
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public String getName() {
-        return name;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public String getUserName() {
+        return userName;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public Integer getUserAge() {
+        return userAge;
     }
 
-    public Integer getStatus() {
-        return status;
+    public void setUserAge(Integer userAge) {
+        this.userAge = userAge;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public String getUserSex() {
+        return userSex;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUserSex(String userSex) {
+        this.userSex = userSex == null ? null : userSex.trim();
     }
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone == null ? null : userPhone.trim();
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress == null ? null : userAddress.trim();
     }
 }

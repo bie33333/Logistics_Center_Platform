@@ -3,42 +3,52 @@
 <mapper namespace="org.G346.mapper.OrderMapper">
   <resultMap id="BaseResultMap" type="org.G346.pojo.Order">
     <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="good_id" jdbcType="VARCHAR" property="goodId" />
     <result column="car_id" jdbcType="VARCHAR" property="carId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="destination" jdbcType="VARCHAR" property="destination" />
-    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="order_describe" jdbcType="INTEGER" property="describe" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from order
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="org.G346.pojo.Order">
-    insert into order (id, user_id, good_id, 
-      car_id, phone, destination, 
-      describe)
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{goodId,jdbcType=VARCHAR}, 
-      #{carId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, 
-      #{describe,jdbcType=VARCHAR})
+    insert into order (id, user_name, user_id, 
+      good_id, car_id, phone, 
+      destination, order_describe, price,
+      count)
+    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{goodId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{describe,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{count,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.G346.pojo.Order">
     update order
-    set user_id = #{userId,jdbcType=VARCHAR},
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
       good_id = #{goodId,jdbcType=VARCHAR},
       car_id = #{carId,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       destination = #{destination,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR}
+      order_describe = #{describe,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, user_id, good_id, car_id, phone, destination, describe
+    select id, user_name, user_id, good_id, car_id, phone, destination, order_describe, price,
+    count
     from order
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, good_id, car_id, phone, destination, describe
+    select id, user_name, user_id, good_id, car_id, phone, destination, order_describe, price,
+    count
     from order
   </select>
 </mapper>

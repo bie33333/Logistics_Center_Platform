@@ -52,7 +52,7 @@ CREATE TABLE `car` (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车牌号',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车辆名',
   `status` int NOT NULL COMMENT '车辆状态：1代表配送中、2代表空闲中、3代表维修中',
-  `describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车辆外观描述',
+  `car_describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车辆外观描述',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -79,6 +79,7 @@ CREATE TABLE `good` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '物品名',
   `warehouse` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '物品存储在哪个仓库',
   `number` int DEFAULT NULL COMMENT '物品数量',
+	`good_describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT  '物品描述',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -89,7 +90,7 @@ CREATE TABLE `good` (
 
 LOCK TABLES `good` WRITE;
 /*!40000 ALTER TABLE `good` DISABLE KEYS */;
-INSERT INTO `good` VALUES ('GOOD001','电饭煲','仓库1',50),('GOOD002','显示器','仓库2',60),('GOOD003','电视机','仓库3',20),('GOOD004','电风扇','仓库1',80),('GOOD005','台式电脑','仓库2',70),('GOOD006','冰箱','仓库3',40);
+INSERT INTO `good` VALUES ('GOOD001','电饭煲','仓库1',50,'美的电饭煲'),('GOOD002','显示器','仓库2',60,'华硕显示器'),('GOOD003','电视机','仓库3',20,'小米电视机'),('GOOD004','电风扇','仓库1',80,'格力电风扇'),('GOOD005','台式电脑','仓库2',70,'联想电脑'),('GOOD006','冰箱','仓库3',40,'海尔冰箱');
 /*!40000 ALTER TABLE `good` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,15 +103,19 @@ DROP TABLE IF EXISTS `order`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人姓名',
-  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人Id',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户姓名',
+  `user_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户电话',
   `good_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '物品Id',
+	`good_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '物品名称',
   `car_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车辆Id',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人电话',
-  `destination` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件地址',
-  `describe` int NOT NULL COMMENT '物流描述：0表示未发货、1表示配送还需一天、2表似乎配送还需两天......以此类推；最高不超过10',
+	`car_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '车辆名称',
+	`addressee`varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人姓名',
+  `address_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人电话',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件地址',
+	`order_describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '物流描述',
+	`order_status` int NOT NULL COMMENT '订单状态，1表示进行中，0表示已完成',
   `price` decimal(10,2) NOT NULL COMMENT '订单价格',
-  `count` int NOT NULL COMMENT '订单数量',
+  
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -121,7 +126,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES ('ORDER01','赵六','4','GOOD001','CAR001','44444444444','陕西省西安市临潼区',2,20.61,5),('ORDER02','张三','1','GOOD002','CAR002','11111111111','陕西省西安市经开区',1,30.60,10),('ORDER03','郑九','7','GOOD003','CAR003','77777777777','陕西省西安市碑林区',0,50.98,5),('ORDER04','张三','1','GOOD005','CAR005','11111111111','陕西省西安市经开区',2,35.80,5);
+INSERT INTO `order` VALUES ('ORDER01','赵六','44444444444','GOOD001'，'电饭煲','CAR001','车辆1','张三','13572304567','陕西省西安市临潼区','暂无描述',1,20.61);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 

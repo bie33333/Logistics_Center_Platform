@@ -4,27 +4,36 @@
   <resultMap id="BaseResultMap" type="org.G346.pojo.Warehouse">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="capacity" jdbcType="INTEGER" property="capacity" />
+    <result column="storage" jdbcType="INTEGER" property="storage" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from warehouse
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="org.G346.pojo.Warehouse">
-    insert into warehouse (id, capacity)
-    values (#{id,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER})
+    insert into warehouse (id, capacity, storage
+      )
+    values (#{id,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER}, #{storage,jdbcType=INTEGER}
+      )
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.G346.pojo.Warehouse">
     update warehouse
-    set capacity = #{capacity,jdbcType=INTEGER}
+    set capacity = #{capacity,jdbcType=INTEGER},
+      storage = #{storage,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, capacity
+    select id, capacity, storage
+    from warehouse
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findWarehouseById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, capacity, storage
     from warehouse
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, capacity
+    select id, capacity, storage
     from warehouse
   </select>
 </mapper>
