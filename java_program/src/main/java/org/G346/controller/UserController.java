@@ -1,5 +1,6 @@
 package org.G346.controller;
 
+import org.G346.mapper.UserMapper;
 import org.G346.pojo.User;
 import org.G346.service.UserService;
 import org.G346.utils.PageResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 
 
 @RestController
