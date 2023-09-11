@@ -76,3 +76,37 @@ export const logisticForm = function() {
         description:''
     }
 }
+
+import request from '../utils/request';
+
+export const selectAllLogistic = query=>{
+    return request({
+        url:"selectAllLogistic",
+        method:'get',
+        params:query
+    });
+};
+
+export const addLogistic = query=>{
+    return request({
+        url:"addLogistic",
+        method:'post',
+        params:query
+    });
+};
+
+export const modifyLogistic = query=>{
+    return request({
+        url:"modifyLogistic",
+        method:'post',
+        params:query
+    });
+};
+
+export const deleteLogistic = query=>{
+    return request({
+        url:"deleteLogistic",
+        method:'post',
+        params:query
+    });
+};

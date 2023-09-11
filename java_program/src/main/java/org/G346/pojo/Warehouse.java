@@ -5,13 +5,7 @@ public class Warehouse {
 
     private Integer capacity;
 
-    @Override
-    public String toString() {
-        return "Warehouse{" +
-                "id='" + id + '\'' +
-                ", capacity=" + capacity +
-                '}';
-    }
+    private Integer storage;
 
     public String getId() {
         return id;
@@ -27,5 +21,13 @@ public class Warehouse {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Integer getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Integer storage) {
+        this.storage = storage;
     }
 }

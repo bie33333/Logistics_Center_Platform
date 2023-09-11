@@ -1,7 +1,11 @@
 package org.G346.pojo;
 
+import java.math.BigDecimal;
+
 public class Order {
     private String id;
+
+    private String userName;
 
     private String userId;
 
@@ -13,20 +17,11 @@ public class Order {
 
     private String destination;
 
-    private String describe;
+    private Integer describe;
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", goodId='" + goodId + '\'' +
-                ", carId='" + carId + '\'' +
-                ", phone='" + phone + '\'' +
-                ", destination='" + destination + '\'' +
-                ", describe='" + describe + '\'' +
-                '}';
-    }
+    private BigDecimal price;
+
+    private Integer count;
 
     public String getId() {
         return id;
@@ -34,6 +29,14 @@ public class Order {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserId() {
@@ -76,11 +79,27 @@ public class Order {
         this.destination = destination == null ? null : destination.trim();
     }
 
-    public String getDescribe() {
+    public Integer getDescribe() {
         return describe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setDescribe(Integer describe) {
+        this.describe = describe;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

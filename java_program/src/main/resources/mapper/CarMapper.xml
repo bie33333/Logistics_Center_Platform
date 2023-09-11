@@ -5,7 +5,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="car_describe" jdbcType="VARCHAR" property="describe" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from car
@@ -13,7 +13,7 @@
   </delete>
   <insert id="insert" parameterType="org.G346.pojo.Car">
     insert into car (id, name, status, 
-      describe)
+      car_describe)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{describe,jdbcType=VARCHAR})
   </insert>
@@ -21,16 +21,21 @@
     update car
     set name = #{name,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      describe = #{describe,jdbcType=VARCHAR}
+      car_describe = #{describe,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, status, describe
+    select id, name, status, car_describe
+    from car
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="findCarById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, status, car_describe
     from car
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, status, describe
+    select id, name, status, car_describe
     from car
   </select>
 </mapper>

@@ -2,20 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.G346.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="org.G346.pojo.User">
-    <result column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
+    <id column="account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="name" jdbcType="VARCHAR" property="userName" />
+    <result column="age" jdbcType="INTEGER" property="userAge" />
+    <result column="sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="address" jdbcType="VARCHAR" property="userAddress" />
   </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where account = #{userAccount,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="org.G346.pojo.User">
-    insert into user (id, name, phone, 
-      status, email)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR})
+    insert into user (account, password,
+      name, age, sex,
+      phone, address)
+    values ( #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR},
+      #{userName,jdbcType=VARCHAR}, #{userAge,jdbcType=INTEGER}, #{userSex,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR})
   </insert>
+  <update id="updateByPrimaryKey" parameterType="org.G346.pojo.User">
+    update user
+    set
+      password = #{userPassword,jdbcType=VARCHAR},
+      name = #{userName,jdbcType=VARCHAR},
+      age = #{userAge,jdbcType=INTEGER},
+      sex = #{userSex,jdbcType=VARCHAR},
+      phone = #{userPhone,jdbcType=VARCHAR},
+      address = #{userAddress,jdbcType=VARCHAR}
+    where account = #{userAccount,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from user
+    where account = #{userAccount,jdbcType=VARCHAR}
+  </select>
+  <select id="findUserByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from user
+    where account = #{userAccount,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, phone, status, email
+    select  *
     from user
   </select>
 </mapper>

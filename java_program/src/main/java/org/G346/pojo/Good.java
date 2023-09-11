@@ -1,19 +1,30 @@
 package org.G346.pojo;
 
 public class Good {
+    private String id;
+
     private String name;
 
-    private Integer integral;
+    private String warehouse;
 
-    private Integer stock;
+    private Integer number;
 
-    @Override
-    public String toString() {
-        return "Good{" +
-                "name='" + name + '\'' +
-                ", integral=" + integral +
-                ", stock=" + stock +
-                '}';
+    private String good_describe;
+    public String getGood_describe() {
+        return good_describe;
+    }
+
+    public void setGood_describe(String good_describe) {
+        this.good_describe = good_describe;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getName() {
@@ -24,19 +35,19 @@ public class Good {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getIntegral() {
-        return integral;
+    public String getWarehouse() {
+        return warehouse;
     }
 
-    public void setIntegral(Integer integral) {
-        this.integral = integral;
+    public void setWarehouse(String warehouse) {
+        this.warehouse = warehouse == null ? null : warehouse.trim();
     }
 
-    public Integer getStock() {
-        return stock;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }

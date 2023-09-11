@@ -1,6 +1,8 @@
 package org.G346.mapper;
 
 import java.util.List;
+
+
 import org.G346.pojo.Warehouse;
 
 public interface WarehouseMapper {
@@ -11,6 +13,6 @@ public interface WarehouseMapper {
     Warehouse selectByPrimaryKey(String id);
 
     List<Warehouse> selectAll();
-
+    List<Warehouse> findWarehouseById(String id);
     int updateByPrimaryKey(Warehouse row);
 }

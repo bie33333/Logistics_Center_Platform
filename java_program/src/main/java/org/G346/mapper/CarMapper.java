@@ -9,8 +9,10 @@ public interface CarMapper {
     int insert(Car row);
 
     Car selectByPrimaryKey(String id);
-
+    List<Car> findCarById(String id);
     List<Car> selectAll();
 
     int updateByPrimaryKey(Car row);
+
+
 }

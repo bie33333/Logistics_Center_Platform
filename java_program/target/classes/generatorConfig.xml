@@ -58,6 +58,7 @@
         <table tableName="good" domainObjectName="Good"/>
         <table tableName="order" domainObjectName="Order"/>
         <table tableName="warehouse" domainObjectName="Warehouse"/>
+        <table tableName="admin" domainObjectName="Admin"/>
     </context>
 </generatorConfiguration>
 
