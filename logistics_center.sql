@@ -126,7 +126,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES ('ORDER01','赵六','44444444444','GOOD001'，'电饭煲','CAR001','车辆1','张三','13572304567','陕西省西安市临潼区','暂无描述',1,20.61);
+INSERT INTO `order` VALUES ('ORDER01','赵六','44444444444','GOOD001','电饭煲','CAR001','车辆1','张三','13572304567','陕西省西安市临潼区','暂无描述',1,20.61);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
