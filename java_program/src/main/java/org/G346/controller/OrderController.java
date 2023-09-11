@@ -48,7 +48,7 @@ public class OrderController {
 
 
     @RequestMapping("insertOrder")
-    public Result insertOrder(String id, String userAccount, String userName, String userPhone, String goodId, String goodName
+    public Result insertOrder(String id, String userAccount, String userName, String userPhone, String goodId,String goodNumber, String goodName
             , String carId, String carName, String addressee, String addressPhone, String address
             , String orderDescribe, String orderStatus, String price) {
         if (id == null) {
@@ -65,6 +65,9 @@ public class OrderController {
         }
         if (goodId == null) {
             return Result.error(400, "goodId不能为空!", null);
+        }
+        if (goodNumber == null) {
+            return Result.error(400, "goodNumber不能为空!", null);
         }
         if (goodName == null) {
             return Result.error(400, "goodName不能为空!", null);
@@ -100,6 +103,7 @@ public class OrderController {
         order.setUserName(userName);
         order.setUserPhone(userPhone);
         order.setGoodId(goodId);
+        order.setGoodNumber(Integer.parseInt(goodNumber));
         order.setGoodName(goodName);
         order.setCarId(carId);
         order.setCarName(carName);
@@ -154,7 +158,7 @@ public class OrderController {
         }
     }
     @RequestMapping("updateOrder")
-    public Result updateOrder(String id, String userAccount, String userName, String userPhone, String goodId, String goodName
+    public Result updateOrder(String id, String userAccount, String userName, String userPhone, String goodId,String goodNumber, String goodName
             , String carId, String carName, String addressee, String addressPhone, String address
             , String orderDescribe, String orderStatus, String price) {
         if (id == null) {
@@ -171,6 +175,9 @@ public class OrderController {
         }
         if (goodId == null) {
             return Result.error(400, "goodId不能为空!", null);
+        }
+        if (goodNumber == null) {
+            return Result.error(400, "goodNumber不能为空!", null);
         }
         if (goodName == null) {
             return Result.error(400, "goodName不能为空!", null);
@@ -236,7 +243,7 @@ public class OrderController {
         order.setAddressPhone(addressPhone);
         order.setAddress(address);
         order.setOrderDescribe(orderDescribe);
-
+        order.setGoodNumber(Integer.parseInt(goodNumber));
         order.setOrderStatus(Integer.parseInt(orderStatus));
         order.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
 
