@@ -4,31 +4,25 @@ import java.math.BigDecimal;
 
 public class Order {
     private String id;
-
     private String userName;
-
-    private String userId;
-
+    private String userPhone;
     private String goodId;
-
+    private String goodName;
     private String carId;
-
-    private String phone;
-
-    private String destination;
-
-    private Integer describe;
-
+    private String carName;
+    private String addressee;
+    private String addressPhone;
+    private String address;
+    private String orderDescribe;
+    private Integer orderStatus;
     private BigDecimal price;
-
-    private Integer count;
 
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+        this.id = id;
     }
 
     public String getUserName() {
@@ -36,15 +30,15 @@ public class Order {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+        this.userName = userName;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getGoodId() {
@@ -52,7 +46,15 @@ public class Order {
     }
 
     public void setGoodId(String goodId) {
-        this.goodId = goodId == null ? null : goodId.trim();
+        this.goodId = goodId;
+    }
+
+    public String getGoodName() {
+        return goodName;
+    }
+
+    public void setGoodName(String goodName) {
+        this.goodName = goodName;
     }
 
     public String getCarId() {
@@ -60,31 +62,55 @@ public class Order {
     }
 
     public void setCarId(String carId) {
-        this.carId = carId == null ? null : carId.trim();
+        this.carId = carId;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCarName() {
+        return carName;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setCarName(String carName) {
+        this.carName = carName;
     }
 
-    public String getDestination() {
-        return destination;
+    public String getAddressee() {
+        return addressee;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination == null ? null : destination.trim();
+    public void setAddressee(String addressee) {
+        this.addressee = addressee;
     }
 
-    public Integer getDescribe() {
-        return describe;
+    public String getAddressPhone() {
+        return addressPhone;
     }
 
-    public void setDescribe(Integer describe) {
-        this.describe = describe;
+    public void setAddressPhone(String addressPhone) {
+        this.addressPhone = addressPhone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getOrderDescribe() {
+        return orderDescribe;
+    }
+
+    public void setOrderDescribe(String orderDescribe) {
+        this.orderDescribe = orderDescribe;
+    }
+
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public BigDecimal getPrice() {
@@ -93,13 +119,5 @@ public class Order {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 }
