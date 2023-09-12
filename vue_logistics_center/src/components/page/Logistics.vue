@@ -12,11 +12,7 @@
         </el-select>
     
         <el-button type="success" style="margin-left: 10px;">搜索</el-button>
-<<<<<<< HEAD
         <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
-=======
-        <el-button type="info" @click="resetParam">重置</el-button>
->>>>>>> origin/master
         <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新物流订单</el-button>
       
         <div>
@@ -54,16 +50,7 @@
             <el-table-column prop="operate" label="操作" width="200">
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
-<<<<<<< HEAD
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-=======
-                <el-popconfirm 
-                    title="确认要删除吗?"
-                    @confirm="getMethod('delete')"
-                    style="margin-left: 10px;">
-                    <el-button slot="reference" type="danger">删除</el-button>
-                </el-popconfirm>
->>>>>>> origin/master
               </template>
             </el-table-column>
           </el-table>
@@ -128,33 +115,22 @@
           </el-form>
           <span slot="footer" class="dialog-footer" v-show="addDialogVisible">
             <el-button @click="addDialogVisible = false">取消</el-button>
-<<<<<<< HEAD
-            <el-button type="primary" @click="getMethod('addAction ')">确定</el-button>
-          </span>
-          <span slot="footer" class="dialog-footer" v-show="updateDialogVisible">
-            <el-button @click="updateDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="updateAction">确定</el-button>
-=======
             <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
           </span>
           <span slot="footer" class="dialog-footer" v-show="updateDialogVisible">
             <el-button @click="updateDialogVisible = false">取消</el-button>
             <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
->>>>>>> origin/master
           </span>
         </el-dialog>
 
       <!-- 分页 -->
-      <div>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage3"
-          :page-size="pageSize"
-          layout="prev, pager, next, jumper"
-          :total="pageNum">
-        </el-pagination>
-      </div>
+      <el-pagination
+        @current-change="(val)=>getMethod('handleCurrentChange',val)"
+        :current-page="pageSet.pageNumber"
+        :page-size="pageSet.pageSize"
+        layout="prev, pager, next, jumper"
+        :total="pageSet.pageTotal">
+      </el-pagination>
     </div>
 </template>
 
@@ -162,7 +138,6 @@
 import { logisticRule,logisticForm,logisticGroup } from "@/js/logistics.js";
 import { getEasyMethod } from "@/utils/common.js";
 export default {
-<<<<<<< HEAD
   data() {
     return {
         orderId:'',
@@ -174,7 +149,7 @@ export default {
         rules: '',
         pageSet: {
           pageNumber: 0,
-          pageSize: 30,
+          pageSize: 5,
           pageTotal: 0,
         }
     }
@@ -189,35 +164,6 @@ export default {
       getEasyMethod(this,type,row,group.methodGroup,group.msgGroup);
     }
   },
-=======
-    data() {
-  return {
-      id:'',
-      tableData: logisticList(),
-      status:'',
-      dialogVisible: false,
-      addDialogVisible: false,
-      updateDialogVisible: false,
-      form: logisticForm
-  }
-},
-created() {
-  rules = logisticRule();
-},
-methods: {
-  resetParam(){
-      this.id = '';
-      this.orderStatus = '';
-  },
-
-  resetForm() {
-      this.$refs.form.resetFields();
-  },
-},
-
-mounted: {
-},
->>>>>>> origin/master
 }
 </script>
 

@@ -38,13 +38,19 @@ export const handleUpdateButton = function(object, row){
 export const handleReset = function(object){
   for (var key of Object.keys(object.search)) {
     object.search[key] = "";
+  }
 }
+
+export const handlePage = function(object,val,select){
+  object.pageSet.pageNumber = val;
+  select();
 }
 
 export const getEasyMethod = function(object, type, row, methodGroup, msgGroup){
     {
         var select = function(){
             methodGroup.select(object.pageSet).then(res=>{
+                object.pageSet.pageTotal = res.data.pageTotal;
                 object.tableData = res.data.list;
                 console.log(object.tableData);
             })
@@ -65,6 +71,8 @@ export const getEasyMethod = function(object, type, row, methodGroup, msgGroup){
           return methodGroup.update(object.form).then(handleRes(object,msgGroup.updateSuccess, select));
         }else if(type==='resetButton'){
           return handleReset(object)
+        }else if(type==='handleCurrentChange'){
+          handlePage(object,row,select);
         }
       }
 }

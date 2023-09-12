@@ -30,16 +30,7 @@
         <el-table-column prop="operate" label="操作">
           <template slot-scope="scope">
             <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
-<<<<<<< HEAD
             <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-=======
-            <el-popconfirm 
-                    title="确认要删除吗?"
-                    @confirm="getMethod('delete')"
-                    style="margin-left: 10px;">
-                    <el-button slot="reference" type="danger">删除</el-button>
-            </el-popconfirm>
->>>>>>> origin/master
           </template>
         </el-table-column>
       </el-table>
@@ -87,12 +78,11 @@
     <!-- 分页 -->
     <div>
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage3"
-        :page-size="pageSize"
+        @current-change="(val)=>getMethod('handleCurrentChange',val)"
+        :current-page="pageSet.pageNumber"
+        :page-size="pageSet.pageSize"
         layout="prev, pager, next, jumper"
-        :total="pageNumber">
+        :total="pageSet.pageTotal">
       </el-pagination>
     </div>
     
@@ -118,7 +108,7 @@ export default {
             rules: '',
             pageSet: {
               pageNumber: 0,
-              pageSize: 30,
+              pageSize: 5,
               pageTotal: 0,
             }
         }
@@ -128,6 +118,13 @@ export default {
       this.getMethod('select');
     },
     methods: {
+      print(val){
+        console.log(val);
+      },
+      handlePage(val){
+        this.pageSet.pageNumber = val;
+        this.getMethod('select');
+      },
       getMethod(type, row){
         var group = goodGroup();
         getEasyMethod(this, type, row, group.methodGroup, group.msgGroup);

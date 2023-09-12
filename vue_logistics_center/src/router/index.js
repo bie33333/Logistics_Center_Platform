@@ -22,7 +22,7 @@ export default new Router({
                 { path: 'dashboard', component: ()=> import('../components/page/Dashboard.vue'), meta: {title: '系统首页'}},
                 { path: 'member', component: ()=> import('../components/page/Member.vue'), meta: {title: '用户管理'}},
                 { path: 'car', component: ()=> import('../components/page/Car.vue'), meta: {title: '车辆列表'}},
-                { path: 'order', component: ()=> import('../components/page/Order.vue'), meta: {title: '订单管理'}},
+                // { path: 'order', component: ()=> import('../components/page/Order.vue'), meta: {title: '订单管理'}},
                 { path: 'logistics', component: ()=> import('../components/page/Logistics.vue'), meta: {title: '物流管理'}},
                 { path: 'personalCenter', component: ()=> import('../components/page/PersonalCenter.vue'), meta: {title: '个人中心'}},
                 // { path: 'charts', component: ()=> import('../components/page/Charts.vue'), meta: {title: '统计数据'}},
