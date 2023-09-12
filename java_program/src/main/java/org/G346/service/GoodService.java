@@ -28,6 +28,14 @@ public class GoodService {
         return PageResult.build(goods);
     }
     /**
+     * 模糊查找物品
+     */
+    public PageResult<Good> lookupGood(int pageNumber, int pageSize, Good good){
+        PageResult.startPage(pageNumber,pageSize);
+        List<Good> goods = goodMapper.lookupGood(good);
+        return PageResult.build(goods);
+    }
+    /**
      * 查找所有物品
      * @return
      */

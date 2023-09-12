@@ -1,8 +1,8 @@
 <template>
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
-        <el-input v-model="id" placeholder="请输入订单编号关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
+        <el-input v-model="search.id" placeholder="请输入订单编号关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
 
-        <el-select v-model="orderStatus" filterable placeholder="请选择订单状态" style="margin-left: 10px;">
+        <el-select v-model="search.orderStatus" filterable placeholder="请选择订单状态" style="margin-left: 10px;">
           <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -11,7 +11,7 @@
           </el-option>
         </el-select>
     
-        <el-button type="success" style="margin-left: 10px;">搜索</el-button>
+        <el-button type="success" style="margin-left: 10px;" @click="getMethod('search')">搜索</el-button>
         <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
         <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新物流订单</el-button>
       
@@ -140,7 +140,20 @@ import { getEasyMethod } from "@/utils/common.js";
 export default {
   data() {
     return {
-        orderId:'',
+        search:{
+          id:'',
+          orderStatus:'',
+        },
+        status: [
+          {
+            value:'0',
+            label:'0'
+          },
+          {
+            value:'1',
+            label:'1'
+          },
+        ],
         tableData: [],
         dialogVisible: false,
         addDialogVisible: false,

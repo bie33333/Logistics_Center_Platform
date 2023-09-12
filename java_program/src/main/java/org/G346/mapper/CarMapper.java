@@ -11,6 +11,7 @@ public interface CarMapper {
     Car selectByPrimaryKey(String id);
     List<Car> findCarById(String id);
     List<Car> selectAll();
+    List<Car> lookupCar(Car car);
 
     int updateByPrimaryKey(Car row);
 

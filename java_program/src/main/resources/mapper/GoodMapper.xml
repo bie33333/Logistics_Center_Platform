@@ -40,4 +40,16 @@
     select id, name, warehouse, number,good_describe
     from good
   </select>
+  <!-- 查询所有符合名称和状态条件的物品  -->
+  <select id="lookupGood" parameterType="org.G346.pojo.Good" resultMap="BaseResultMap">
+    SELECT * FROM good
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE '%${name}%'
+      </if>
+      <if test="warehouse != null and warehouse != ''">
+        and warehouse LIKE '%${warehouse}%'
+      </if>
+    </where>
+  </select>
 </mapper>

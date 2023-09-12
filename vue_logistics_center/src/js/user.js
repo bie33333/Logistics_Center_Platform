@@ -104,7 +104,8 @@ export const userGroup = function() {
             add: query=>{return request({url:"insertUser", method:'post', params:query})},
             delete: query=>{return request({url:"deleteUser",method:'post',params:query})},
             update: query=>{return request({url:"updateUser",method:'post',params:query})},
-            select: query=>{return request({url:"selectUser",method:'get',params:query})}
+            select: query=>{return request({url:"selectUser",method:'get',params:query})},
+            lookup: query=>{return request({url:"lookupUser",method:'get',params:query})},
         },
         msgGroup: {
             deleteConfirm:  '确定要删除此车辆吗？', 

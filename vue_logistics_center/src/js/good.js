@@ -63,6 +63,7 @@ export const goodGroup = function() {
           delete: query=>{return request({url:"deleteGood",method:'post',params:query})},
           update: query=>{return request({url:"updateGood",method:'post',params:query})},
           select: query=>{return request({url:"selectGood",method:'get',params:query})},
+          lookup: query=>{return request({url:"lookupGood",method:'get',params:query})},
       },
       msgGroup: {
           deleteConfirm:  '确定要删除此物品吗？', 

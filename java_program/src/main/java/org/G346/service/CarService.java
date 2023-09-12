@@ -21,6 +21,13 @@ public class CarService {
         List<Car> cars = carMapper.selectAll();
         return PageResult.build(cars);
     }
+    public PageResult<Car> lookupCar(int pageNumber, int pageSize,Car car){
+        PageResult.startPage(pageNumber,pageSize);
+        List<Car> cars = carMapper.lookupCar(car);
+        return PageResult.build(cars);
+    }
+
+
     /**
      * 查找所有车辆
      * @return

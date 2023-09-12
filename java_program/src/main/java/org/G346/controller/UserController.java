@@ -65,7 +65,11 @@ public class UserController {
     public PageResult<User> selectAllUser(){
         return userService.selectAll();
     }
-
+    @RequestMapping("lookupUser")
+    public PageResult<User> lookupUser(String pageNumber, String pageSize
+            , String userName){
+        return userService.lookupUser(Integer.parseInt(pageNumber),Integer.parseInt(pageSize),userName);
+    }
     /**
      * 根据用户名查找单个用户
      * @param userAccount

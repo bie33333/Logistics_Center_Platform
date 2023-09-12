@@ -1,8 +1,8 @@
 <template>
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
-        <el-input v-model="search.username" placeholder="请输入用户名关键字" suffix-icon="el-icon-search" style="width: 300px;"
+        <el-input v-model="search.userName" placeholder="请输入用户名关键字" suffix-icon="el-icon-search" style="width: 300px;"
                 ></el-input>
-        <el-button type="success" style="margin-left: 10px;">搜索</el-button>
+        <el-button type="success" style="margin-left: 10px;" @click="getMethod('search')">搜索</el-button>
         <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
         <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新账户</el-button>
       
@@ -97,7 +97,7 @@ export default {
     data() {
         return {
             search:{
-              username:'',
+              userName:'',
             },
             tableData: [],
             dialogVisible: false,

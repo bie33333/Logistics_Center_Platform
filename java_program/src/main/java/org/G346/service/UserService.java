@@ -26,6 +26,11 @@ public class UserService {
         return PageResult.build(users);
     }
 
+    public PageResult<User> lookupUser(int pageNumber, int pageSize, String name){
+        PageResult.startPage(pageNumber,pageSize);
+        List<User> users = userMapper.lookupUser(name);
+        return PageResult.build(users);
+    }
     /**
      * 查找所有用户
      * @return

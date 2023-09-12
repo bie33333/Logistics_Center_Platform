@@ -1,12 +1,25 @@
+// export const statusList = function() {
+//     return [
+//         {
+//           value:'0',
+//           label:'待出车'
+//         },
+//         {
+//           value:'1',
+//           label:'出车中'
+//         },
+//       ]
+// }
+
 export const statusList = function() {
     return [
         {
-          value:'待出车',
-          label:'待出车'
+          value:'0',
+          label:'0'
         },
         {
-          value:'出车中',
-          label:'出车中'
+          value:'1',
+          label:'1'
         },
       ]
 }
@@ -43,13 +56,16 @@ export const carForm = function() {
 
 import request from '../utils/request';
 
+export const lookupCar = query=>{return request({url:"lookupCar",method:'post',params:query})};
+
 export const carGroup = function() {
     return {
         methodGroup: {
             add: query=>{return request({url:"insertCar",method:'post',params:query})},
             delete: query=>{return request({url:"deleteCar",method:'post',params:query})},
             update: query=>{return request({url:"updateCar",method:'post',params:query})},
-            select: query=>{return request({url:"selectCar",method:'get',params:query})}
+            select: query=>{return request({url:"selectCar",method:'get',params:query})},
+            lookup: query=>{return request({url:"lookupCar",method:'post',params:query})},
         },
         msgGroup: {
             deleteConfirm:  '确定要删除此车辆吗？', 

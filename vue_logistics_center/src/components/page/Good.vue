@@ -11,7 +11,7 @@
       </el-option>
     </el-select>
 
-    <el-button type="success" style="margin-left: 10px;">搜索</el-button>
+    <el-button type="success" style="margin-left: 10px;" @click="getMethod('search')">搜索</el-button>
     <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
     <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新物品</el-button>
   

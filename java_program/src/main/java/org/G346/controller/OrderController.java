@@ -41,6 +41,18 @@ public class OrderController {
         return orderService.selectAll();
     }
 
+    @RequestMapping("lookupOrder")
+    public PageResult<Order> lookupOrder(String pageNumber, String pageSize
+            , String id, String orderStatus){
+        Order order = new Order();
+        order.setId(id);
+        if(orderStatus==null || "".equals(orderStatus)){
+            order.setOrderStatus(-1);
+        }else {
+            order.setOrderStatus(Integer.parseInt(orderStatus));
+        }
+        return orderService.lookupOrder(Integer.parseInt(pageNumber),Integer.parseInt(pageSize),order);
+    }
     @RequestMapping("findOrderById")
     public PageResult<Order> findOrderById(String id) {
         return orderService.findOrderById(id);

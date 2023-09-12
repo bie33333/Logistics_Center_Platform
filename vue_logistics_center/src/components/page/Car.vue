@@ -11,7 +11,7 @@
           </el-option>
         </el-select>
     
-        <el-button type="success" style="margin-left: 10px;">搜索</el-button>
+        <el-button type="success" style="margin-left: 10px;" @click="getMethod('search')">搜索</el-button>
         <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
         <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新车辆</el-button>
       
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { carRules, carForm, statusList,selectCar, carGroup } from "@/js/car.js";
+import { carRules, carForm, statusList, carGroup, lookupCar } from "@/js/car.js";
 import { getEasyMethod } from "@/utils/common.js";
 export default {
     data() {
@@ -101,7 +101,7 @@ export default {
         rules: '',
         pageSet: {
           pageNumber: 0,
-          pageSize: 5,
+          pageSize: 2,
           pageTotal: 0,
         }
       }

@@ -11,6 +11,7 @@ public interface GoodMapper {
     Good selectByPrimaryKey(String id);
 
     List<Good> selectAll();
+    List<Good> lookupGood(Good good);
     List<Good> findGoodById(String id);
     int updateByPrimaryKey(Good row);
 }

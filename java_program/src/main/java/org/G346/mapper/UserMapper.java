@@ -11,6 +11,7 @@ public interface UserMapper {
     User selectByPrimaryKey(String userAccount);
     List<User> findUserByAccount(String userAccount);
     List<User> selectAll();
+    List<User> lookupUser(String name);
 
     int updateByPrimaryKey(User row);
 }
