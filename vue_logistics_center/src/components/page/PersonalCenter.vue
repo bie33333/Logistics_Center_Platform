@@ -2,9 +2,9 @@
     <div style="line-height: 20px;">
         <h1 style="line-height: 50px;text-align: center;font-size: larger;">个人中心</h1>
           <el-descriptions class="margin-top" title="用户个人信息" :column="3" :size="size" border>
-            <template slot="extra">
+            <!-- <template slot="extra">
               <el-button type="primary" size="small">操作</el-button>
-            </template>
+            </template> -->
             <el-descriptions-item>
               <template slot="label">
                 <i class="el-icon-user"></i>

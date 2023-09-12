@@ -28,7 +28,12 @@
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
-                <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
+                <el-popconfirm 
+                    title="确认要删除吗?"
+                    @confirm="getMethod('delete')"
+                    style="margin-left: 10px;">
+                    <el-button slot="reference" type="danger">删除</el-button>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
@@ -67,7 +72,20 @@
             <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
           </span>
         </el-dialog>
-      </div>
+
+    <!-- 分页 -->
+    <div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="pageSize"
+        layout="prev, pager, next, jumper"
+        :total="pageNum">
+      </el-pagination>
+    </div>
+
+  </div>
 </template>
 
 <script>

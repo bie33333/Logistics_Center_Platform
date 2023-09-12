@@ -15,12 +15,12 @@ export default {
         return {
             collapse: false,
             menuList: [
-                {index: 'dashboard', title: '系统首页', icon: 'el-icon-s-home'},
+                // {index: 'dashboard', title: '系统首页', icon: 'el-icon-s-home'},
                 {index: 'personalCenter', title: '个人中心', icon: 'el-icon-user'},
                 {index: 'member', title: '用户管理', icon: 'el-icon-user'},
                 {index: 'good',  title: '物品管理', icon: 'el-icon-document-copy'},
                 {index: 'car', title: '车辆管理', icon: 'el-icon-date'},
-                {index: 'order',  title: '订单管理', icon: 'el-icon-document-copy'},
+                // {index: 'order',  title: '订单管理', icon: 'el-icon-document-copy'},
                 {index: 'logistics',  title: '物流管理', icon: 'el-icon-document-copy'},
 
                 // {index: 'charts',title: '统计数据', icon: 'el-icon-odometer'},
