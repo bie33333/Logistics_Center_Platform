@@ -1,10 +1,10 @@
 <template>
   <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
-    <el-input v-model="goodName" placeholder="请输入物品名关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
+    <el-input v-model="name" placeholder="请输入物品名关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
 
-    <el-select v-model="location" filterable placeholder="请选择存储仓库" style="margin-left: 10px;">
+    <el-select v-model="warehouse" filterable placeholder="请选择存储仓库" style="margin-left: 10px;">
       <el-option
-            v-for="item in locations"
+            v-for="item in warehouses"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -13,24 +13,24 @@
 
     <el-button type="success" style="margin-left: 10px;">搜索</el-button>
     <el-button type="info" @click="resetParam">重置</el-button>
-    <el-button size="medium" type="primary" style="margin-left: 10px;" @click="add">增添新物品</el-button>
+    <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新物品</el-button>
   
     <div>
       <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
-        <el-table-column prop="goodId" label="物品编号" width="180">
+        <el-table-column prop="id" label="物品编号" width="180">
         </el-table-column>
-        <el-table-column prop="goodName" label="物品名称" width="120">
+        <el-table-column prop="name" label="物品名称" width="120">
         </el-table-column>
-        <el-table-column prop="location" label="储存仓库" width="120">
+        <el-table-column prop="warehouse" label="储存仓库" width="120">
         </el-table-column>
         <el-table-column prop="number" label="数量" width="120">
         </el-table-column>
-        <el-table-column prop="description" label="物品描述" width="450">
+        <el-table-column prop="good_describe" label="物品描述" width="450">
         </el-table-column>
         <el-table-column prop="operate" label="操作">
           <template slot-scope="scope">
-            <el-button type="success" @click="update(scope.row)">修改</el-button>
-            <el-button type="danger">删除</el-button>
+            <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
+            <el-button type="danger" @click="getMethod('delete')">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -40,18 +40,18 @@
     <!-- 增添表单 -->
     <el-dialog
       title=""
-      :visible.sync="centerDialogVisible"
+      :visible.sync="dialogVisible"
       width="50%"
       center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-        <el-form-item label="物品编号" prop="goodId">
-          <el-input v-model="form.goodId"></el-input>
+        <el-form-item label="物品编号" prop="id">
+          <el-input v-model="form.id"></el-input>
         </el-form-item>
-        <el-form-item label="物品名称" prop="goodName">
-            <el-input v-model="form.goodName"></el-input>
+        <el-form-item label="物品名称" prop="name">
+            <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="储存仓库" prop="location">
-            <el-select v-model="form.location" placeholder="请选择仓库">
+        <el-form-item label="储存仓库" prop="warehouse">
+            <el-select v-model="form.warehouse" placeholder="请选择仓库">
               <el-option label="仓库1" value="仓库1"></el-option>
               <el-option label="仓库2" value="仓库2"></el-option>
               <el-option label="仓库3" value="仓库3"></el-option>
@@ -61,73 +61,67 @@
         <el-form-item label="物品数量" prop="number">
             <el-input v-model="form.number"></el-input>
           </el-form-item>
-        <el-form-item label="物品描述" prop="description">
-          <el-input v-model="form.description"></el-input>
+        <el-form-item label="物品描述" prop="good_describe">
+          <el-input v-model="form.good_describe"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取消</el-button>
-        <el-button type="primary">确定</el-button>
+      <span slot="footer" class="dialog-footer"  v-show="addDialogVisible">
+        <el-button @click="addDialogVisible = false;dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
+      </span>
+      <span slot="footer" class="dialog-footer"  v-show="updateDialogVisible">
+        <el-button @click="updateDialogVisible = false;dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { goodList, goodRules, locationList, goodForm } from "@/js/good.js";
+import { goodRules, warehouseList, goodForm, selectAllGood, goodGroup} from "@/js/good.js";
+import { getEasyMethod } from "@/utils/common.js";
 export default {
     data() {
-
-      let checkDuplicate =(rule,value,callback) => {
-        // if(this.form.userid){
-        //   return callback();
-        // }
-        // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
-        //   if(res.code == 200){
-        //     callback(new Error('Account already exist'));
-        //   }else{
-        //     callback();
-        //   }
-        // })
-      }
         return {
-            goodName:'',
-            location:'',
-            tableData: goodList(),
-            locations:locationList(),
-            centerDialogVisible: false,
-            form:goodForm(),  
+            name:'',
+            warehouse:'',
+
+            tableData: [],
+            warehouses: warehouseList(),
+            dialogVisible: false,
+            addDialogVisible: false,
+            updateDialogVisible: false,
+            form: goodForm(),
+            rules: '',
+            pageSet: {
+              pageNumber: 0,
+              pageSize: 30,
+              pageTotal: 0,
+            }
         }
     },
     created() {
-      rules = goodRules();
+      this.rules = goodRules(this.form);
+      this.selectGoods();
     },
     methods: {
-        resetParam(){
-            this.goodName = '';
-            this.location = '';
-        },
-        add(){
-            this.form.goodId='';
-            this.centerDialogVisible = true;
-            this.$nextTick(() => {
-            this.resetForm();
-          })
-        },
-        resetForm() {
-            this.$refs.form.resetFields();
-        },
-        update(row){
-          this.centerDialogVisible = true;
-          this.$nextTick(() => {
-            this.resetForm();
-            this.form.goodId = row.goodId;
-            this.form.goodName = row.goodName;
-            this.form.location = row.location;
-            this.form.number = row.number;
-            this.form.description = row.description;
-          }) 
-        }
+      selectGoods(){
+        selectAllGood(this.pageSet).then(res=>{
+          this.tableData = res.data.list;
+          console.log(this.tableData);
+        })
+      },
+      resetParam(){
+          this.name = '';
+          this.warehouse = '';
+      },
+      resetForm() {
+          this.$refs.form.resetFields();
+      },
+      getMethod(type, row){
+        var group = goodGroup(this.selectGoods);
+        getEasyMethod(this, type, row, group.methodGroup, group.msgGroup);
+      }
     },
 
     mounted: {
