@@ -48,7 +48,7 @@ public class OrderController {
 
 
     @RequestMapping("insertOrder")
-    public Result insertOrder(String id, String userAccount, String userName, String userPhone, String goodId, String goodName
+    public Result insertOrder(String id, String userAccount, String userName, String userPhone, String goodId,String goodNumber, String goodName
             , String carId, String carName, String addressee, String addressPhone, String address
             , String orderDescribe, String orderStatus, String price) {
         if (id == null) {
@@ -65,6 +65,9 @@ public class OrderController {
         }
         if (goodId == null) {
             return Result.error(400, "goodId不能为空!", null);
+        }
+        if (goodNumber == null) {
+            return Result.error(400, "goodNumber不能为空!", null);
         }
         if (goodName == null) {
             return Result.error(400, "goodName不能为空!", null);
@@ -100,6 +103,7 @@ public class OrderController {
         order.setUserName(userName);
         order.setUserPhone(userPhone);
         order.setGoodId(goodId);
+        order.setGoodNumber(Integer.parseInt(goodNumber));
         order.setGoodName(goodName);
         order.setCarId(carId);
         order.setCarName(carName);
@@ -154,7 +158,7 @@ public class OrderController {
         }
     }
     @RequestMapping("updateOrder")
-    public Result updateOrder(String id, String userAccount, String userName, String userPhone, String goodId, String goodName
+    public Result updateOrder(String id, String userAccount, String userName, String userPhone, String goodId,String goodNumber, String goodName
             , String carId, String carName, String addressee, String addressPhone, String address
             , String orderDescribe, String orderStatus, String price) {
         if (id == null) {
@@ -171,6 +175,9 @@ public class OrderController {
         }
         if (goodId == null) {
             return Result.error(400, "goodId不能为空!", null);
+        }
+        if (goodNumber == null) {
+            return Result.error(400, "goodNumber不能为空!", null);
         }
         if (goodName == null) {
             return Result.error(400, "goodName不能为空!", null);
@@ -201,8 +208,47 @@ public class OrderController {
         }
 
         Order order = orderService.selectByPrimaryKey(id);
-        
-        orderService.updateByPrimaryKey(order);
+
+        User user = userService.selectByPrimaryKey(userAccount);
+        if (user == null) {
+            return Result.error(400, "修改失败，用户不存在！", null);
+        } else if (user.getUserName()!=userName||user.getUserPhone()!=userPhone) {
+            return Result.error(400,"用户姓名或电话错误！",null);
+        }else {
+            order.setUserAccount(userAccount);
+            order.setUserName(userName);
+            order.setUserPhone(userPhone);
+        }
+
+        Good good= goodService.selectByPrimaryKey(goodId);
+        if (good == null) {
+            return Result.error(400, "修改失败，物品不存在！", null);
+        } else if (good.getName()!=goodName) {
+            return Result.error(400,"物品名错误！",null);
+        }else {
+            order.setGoodId(goodId);
+            order.setGoodName(goodName);
+        }
+
+        Car car =carService.selectByPrimaryKey(carId);
+        if (car == null) {
+            return Result.error(400, "修改失败，车辆不存在！", null);
+        } else if (car.getName()!=carName) {
+            return Result.error(400,"车辆名错误！",null);
+        }else {
+            order.setCarId(carId);
+            order.setCarName(carName);
+        }
+        order.setAddressee(addressee);
+        order.setAddressPhone(addressPhone);
+        order.setAddress(address);
+        order.setOrderDescribe(orderDescribe);
+        order.setGoodNumber(Integer.parseInt(goodNumber));
+        order.setOrderStatus(Integer.parseInt(orderStatus));
+        order.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
+
+        int row = orderService.updateByPrimaryKey(order);
+
         return Result.ok();
 
 

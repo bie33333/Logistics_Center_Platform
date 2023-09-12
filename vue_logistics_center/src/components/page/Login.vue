@@ -24,7 +24,7 @@
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
                 <div class="login-btn">
-                    <el-button type="success" @click="addAccount">注册</el-button>
+                    <el-button type="success" @click="getMethod('addButton')">注册</el-button>
                 </div>               
             </el-form>
         </div>
@@ -32,7 +32,7 @@
         <!-- 增添用户表单 -->
         <el-dialog
           title=""
-          :visible.sync="centerDialogVisible"
+          :visible.sync="dialogVisible"
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
@@ -64,40 +64,18 @@
                 <el-input v-model="form.userAddress"></el-input>
             </el-form-item>
           </el-form>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">取消</el-button>
-            <el-button type="primary">确认</el-button>
+          <span slot="footer" class="dialog-footer" v-show="addDialogVisible">
+            <el-button @click="addDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
           </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
-import { userLogin } from "@/api/login";
+import { userLogin } from "@/js/login";
 export default {
     data() {
-        var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请确认密码'));
-        } else if (value !== this.form.password) {
-          callback(new Error('两次输入的密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-
-      let checkDuplicate =(rule,value,callback) => {
-        // if(this.form.userid){
-        //   return callback();
-        // }
-        // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
-        //   if(res.code == 200){
-        //     callback(new Error('Account already exist'));
-        //   }else{
-        //     callback();
-        //   }
-        // })
-      }
 
         return {
             param: {
@@ -110,9 +88,8 @@ export default {
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
             },
 
-            centerDialogVisible: false,
-
-            
+            dialogVisible: false,
+            addDialogVisible: false,
 
             form:{
                 userName:'',
@@ -136,14 +113,14 @@ export default {
                     { min: 6, max: 10, message: '长度在6至15个字符之间', trigger: 'blur' }
                 ],
 
-                confirmedPassword: [
-                    { validator: validatePass2, trigger: 'blur' }
+                userconfirmedPassword: [
+                    // { validator: validatePass2, trigger: 'blur' }
                 ],
 
                 userAccount: [
                     { required: true, message: '请输入账户', trigger: 'blur' },
                     { min: 3, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
-                    { validator: checkDuplicate, trigger: 'blur' }
+                    // { validator: checkDuplicate, trigger: 'blur' }
                 ],
 
                 userPhone: [
@@ -209,13 +186,6 @@ export default {
             })
         },
 
-        addAccount(){
-            this.form.account='';
-            this.centerDialogVisible = true;
-            this.$nextTick(() => {
-            this.resetForm();
-          })
-        },
 
         resetForm() {
             this.$refs.form.resetFields();

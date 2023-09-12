@@ -8,6 +8,8 @@ public class Order {
     private String userName;
     private String userPhone;
     private String goodId;
+
+    private int goodNumber;
     private String goodName;
     private String carId;
     private String carName;
@@ -56,6 +58,14 @@ public class Order {
 
     public void setGoodId(String goodId) {
         this.goodId = goodId;
+    }
+
+    public int getGoodNumber() {
+        return goodNumber;
+    }
+
+    public void setGoodNumber(int goodNumber) {
+        this.goodNumber = goodNumber;
     }
 
     public String getGoodName() {

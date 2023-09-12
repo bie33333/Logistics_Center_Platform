@@ -7,6 +7,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="good_id" jdbcType="VARCHAR" property="goodId" />
+    <result column="good_num" jdbcType="INTEGER" property="goodNumber" />
     <result column="good_name" jdbcType="VARCHAR" property="goodName" />
     <result column="car_id" jdbcType="VARCHAR" property="carId" />
     <result column="car_name" jdbcType="VARCHAR" property="carName" />
@@ -22,10 +23,10 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="org.G346.pojo.Order">
-    insert into `order` (id,user_account,user_name,user_phone,good_id,good_name
+    insert into `order` (id,user_account,user_name,user_phone,good_id,good_num,good_name
     ,car_id,car_name,addressee,address_phone,address,order_describe,order_status,price)
     values (#{id, jdbcType=VARCHAR}, #{userAccount, jdbcType=VARCHAR},#{userName, jdbcType=VARCHAR}, #{userPhone, jdbcType=VARCHAR}
-    , #{goodId, jdbcType=VARCHAR}, #{goodName, jdbcType=VARCHAR}, #{carId, jdbcType=VARCHAR}
+    , #{goodId, jdbcType=VARCHAR},#{goodNumber, jdbcType=INTEGER}, #{goodName, jdbcType=VARCHAR}, #{carId, jdbcType=VARCHAR}
     , #{carName, jdbcType=VARCHAR}, #{addressee, jdbcType=VARCHAR}, #{addressPhone, jdbcType=VARCHAR}
     , #{address, jdbcType=VARCHAR}, #{orderDescribe, jdbcType=VARCHAR}, #{orderStatus, jdbcType=INTEGER}, #{price, jdbcType=DECIMAL}
            )
@@ -36,7 +37,9 @@
         user_name = #{userName, jdbcType=VARCHAR},
         user_phone = #{userPhone, jdbcType=VARCHAR},
         good_id = #{goodId, jdbcType=VARCHAR},
+        good_num= #{goodNumber, jdbcType=INTEGER},
         good_name = #{goodName, jdbcType=VARCHAR},
+
         car_id = #{carId, jdbcType=VARCHAR},
         car_name = #{carName, jdbcType=VARCHAR},
         addressee = #{addressee, jdbcType=VARCHAR},

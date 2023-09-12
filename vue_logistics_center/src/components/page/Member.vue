@@ -8,24 +8,24 @@
       
         <div>
           <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
-            <el-table-column prop="name" label="姓名" width="120">
+            <el-table-column prop="userName" label="姓名" width="120">
             </el-table-column>
-            <el-table-column prop="account" label="账户" width="180">
+            <el-table-column prop="userAccount" label="账户" width="180">
             </el-table-column>
-            <el-table-column prop="age" label="年龄" width="100">
+            <el-table-column prop="userAge" label="年龄" width="100">
             </el-table-column>
-            <el-table-column prop="sex" label="性别" width="100">
+            <el-table-column prop="userSex" label="性别" width="100">
             </el-table-column>
-            <el-table-column prop="phone" label="联系电话" width="180">
+            <el-table-column prop="userPhone" label="联系电话" width="180">
             </el-table-column>
-            <el-table-column prop="address" label="地址" width="300">
+            <el-table-column prop="userAddress" label="地址" width="300">
             </el-table-column>
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
-                <el-button type="success" @click="update(scope.row)">修改</el-button>
+                <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-popconfirm 
                     title="确认要删除吗?"
-                    @confirm="del()"
+                    @confirm="getMethod('delete')"
                     style="margin-left: 10px;">
                     <el-button slot="reference" type="danger">删除</el-button>
                 </el-popconfirm>
@@ -36,43 +36,47 @@
       
         
         <!-- 增添用户表单 -->
-        <el-dialog
+        <el-dialog ref="add"
           title=""
-          :visible.sync="centerDialogVisible"
+          :visible.sync="dialogVisible"
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-            <el-form-item label="用户姓名" prop="name">
-              <el-input v-model="form.name"></el-input>
+            <el-form-item label="用户姓名" prop="userName">
+              <el-input v-model="form.userName"></el-input>
             </el-form-item>
-            <el-form-item label="用户账户" prop="account">
-                <el-input v-model="form.account"></el-input>
+            <el-form-item label="用户账户" prop="userAccount">
+                <el-input v-model="form.userAccount"></el-input>
               </el-form-item>
-            <el-form-item label="用户密码" prop="password" >
-              <el-input v-model="form.password"></el-input>
+            <el-form-item label="用户密码" prop="userPassword" >
+              <el-input v-model="form.userPassword"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="confirmedPassword">
-              <el-input v-model="form.confirmedPassword" autocomplete="off"></el-input>
+            <el-form-item label="确认密码" prop="userConfirmedPassword">
+              <el-input v-model="form.userConfirmedPassword" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="联系电话" prop="phone">
-                <el-input v-model="form.phone"></el-input>
+            <el-form-item label="联系电话" prop="userPhone">
+                <el-input v-model="form.userPhone"></el-input>
               </el-form-item>
-            <el-form-item label="年龄" prop="age">
-              <el-input v-model="form.age"></el-input>
+            <el-form-item label="年龄" prop="userAge">
+              <el-input v-model="form.userAge"></el-input>
             </el-form-item>
-            <el-form-item label="性别" prop="sex">
-                <el-select v-model="form.sex" placeholder="请选择性别">
+            <el-form-item label="性别">
+                <el-select v-model="form.userSex" placeholder="请选择性别">
                   <el-option label="男" value="男"></el-option>
                   <el-option label="女" value="女"></el-option>
                 </el-select>
               </el-form-item>
-            <el-form-item label="住址" prop="address">
-                <el-input v-model="form.address"></el-input>
+            <el-form-item label="住址" prop="userAddress">
+                <el-input v-model="form.userAddress"></el-input>
             </el-form-item>
           </el-form>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">取消</el-button>
-            <el-button type="primary">确认</el-button>
+          <span slot="footer" class="dialog-footer"  v-show="addDialogVisible">
+            <el-button @click="addDialogVisible = false;dialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
+          </span>
+          <span slot="footer" class="dialog-footer"  v-show="updateDialogVisible">
+            <el-button @click="updateDialogVisible = false;dialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
           </span>
         </el-dialog>
 
@@ -93,147 +97,40 @@
 </template>
 
 <script>
+import { dataRule, dataForm, selectAllUser, addUser, updateUser } from "@/js/user.js";
 export default {
     data() {
-
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请确认密码'));
-        } else if (value !== this.form.password) {
-          callback(new Error('两次输入的密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-
-      let checkDuplicate =(rule,value,callback) => {
-        // if(this.form.userid){
-        //   return callback();
-        // }
-        // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
-        //   if(res.code == 200){
-        //     callback(new Error('Account already exist'));
-        //   }else{
-        //     callback();
-        //   }
-        // })
-      }
-
-
         return {
             username:'',
-            pageSize:1,
-            pageNum:10,
-
-            tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }],
-
-            centerDialogVisible: false,
-            form:{
-                name:'',
-                password:'',
-                confirmedPassword:'',
-                account:'',
-                phone:'',
-                age:'',
-                sex:'',
-                address:'',
-            },
-
-            rules: {
-                name: [
-                    { required: true, message: '请输入用户姓名', trigger: 'blur' },
-                    { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
-                ],
-
-                password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 10, message: '长度在6至15个字符之间', trigger: 'blur' }
-                ],
-
-                confirmedPassword: [
-                    { validator: validatePass2, trigger: 'blur' }
-                ],
-
-                account: [
-                    { required: true, message: '请输入账户', trigger: 'blur' },
-                    { min: 3, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
-                    { validator: checkDuplicate, trigger: 'blur' }
-                ],
-
-                phone: [
-                    { required: true, message: '请输入电话', trigger: 'blur' },
-                    { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
-                ],
-
-                age: [
-                    { required: true, message: '请输入年龄', trigger: 'blur' },
-                ],
-
-                sex:[
-                { required: true, message: '请选择性别', trigger: 'change' },
-                ],
-
-                address: [
-                    { required: true, message: '请输入住址', trigger: 'blur' },
-                ],
+            tableData: [],
+            dialogVisible:false,
+            updateDialogVisible: false,
+            addDialogVisible: false,
+            form: dataForm(),
+            rules: '',
+            pageSet: {
+              pageNumber: 0,
+              pageSize: 30,
+              pageTotal: 0,
             }
-            
         }
     },
-
+    created() {
+      this.selectUser();
+      this.rules = dataRule(this.form);
+    },
     methods: {
+        //select用户
+        selectUser(){
+          selectAllUser(this.pageSet).then(res => {
+            this.tableData = res.data.list;
+          })
+        },
+
+        //重置搜索栏
         resetParam(){
             this.username = '';
         },
-        addAccount(){
-            this.form.account='';
-            this.centerDialogVisible = true;
-            this.$nextTick(() => {
-            this.resetForm();
-          })
-        },
-        resetForm() {
-            this.$refs.form.resetFields();
-        },
-
-        update(row){
-          this.centerDialogVisible = true;
-          this.$nextTick(() => {
-            this.resetForm();
-            this.form.name = row.name;
-            this.form.account = row.account;
-            this.form.password = row.password;
-            this.form.phone = row.phone;
-            this.form.age = row.age;
-            this.form.sex = row.sex;
-            this.form.address = row.address;
-          }) 
-        },
-        del(){
-          alert("删除成功");
-        },
-        handleSizeChange(val) {
-          console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-          console.log(`当前页: ${val}`);
-        }
     },
 
     mounted: {
