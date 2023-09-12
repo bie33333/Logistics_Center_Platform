@@ -42,19 +42,6 @@ export const dataForm = function() {
     };
 }
 
-var checkDuplicate = (rule,value,callback) => {
-    // if(this.form.userid){
-        //   return callback();
-        // }
-        // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
-        //   if(res.code == 200){
-        //     callback(new Error('Account already exist'));
-        //   }else{
-        //     callback();
-        //   }
-        // })
-}
-
 const getValidatePass = function(form){
     return (rule, value, callback) => {
         if (value === '') {
@@ -111,42 +98,29 @@ export const dataRule = function(thing) {
 
 import request from '../utils/request';
 
-export const selectAll = query => {
-    return request({
-        url: "selectAll",
-        method:'get',
-        params: query,
-    })
+export const userGroup = function() {
+    return {
+        methodGroup: {
+            add: query=>{return request({url:"insertUser", method:'post', params:query})},
+            delete: query=>{return request({url:"deleteUser",method:'post',params:query})},
+            update: query=>{return request({url:"updateUser",method:'post',params:query})},
+            select: query=>{return request({url:"selectUser",method:'get',params:query})}
+        },
+        msgGroup: {
+            deleteConfirm:  '确定要删除此车辆吗？', 
+            deleteSuccess: "删除成功", 
+            addSuccess: "增加车辆成功",
+            updateSuccess: "修改成功",
+          }
+    }
 }
 
-export const selectAllUser = query=>{
-    return request({
-        url:"selectUser",
-        method:'get',
-        params:query
-    });
-};
+export const selectAll = query => {return request({url: "selectAll",method:'get',params: query,})}
 
-export const addUser = query=>{
-    return request({
-        url:"insertUser",
-        method:'post',
-        params:query
-    });
-};
+export const selectAllUser = query=>{return request({url:"selectUser",method:'get',params:query})};
 
-export const updateUser = query=>{
-    return request({
-        url:"updateUser",
-        method:'post',
-        params:query
-    });
-};
+export const addUser = query=>{return request({url:"insertUser", method:'post', params:query})};
 
-export const deleteUser = query=>{
-    return request({
-        url:"deleteUser",
-        method:'post',
-        params:query
-    });
-};
+export const updateUser = query=>{return request({url:"updateUser", method:'post', params:query})};
+
+export const deleteUser = query=>{return request({url:"deleteUser", method:'post', params:query})};

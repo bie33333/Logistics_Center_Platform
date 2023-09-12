@@ -1,8 +1,8 @@
 <template>
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
-        <el-input v-model="name" placeholder="请输入车辆名称关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
+        <el-input v-model="search.name" placeholder="请输入车辆名称关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
     
-        <el-select v-model="status" filterable placeholder="请选择车辆状态" style="margin-left: 10px;">
+        <el-select v-model="search.status" filterable placeholder="请选择车辆状态" style="margin-left: 10px;">
           <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -12,7 +12,7 @@
         </el-select>
     
         <el-button type="success" style="margin-left: 10px;">搜索</el-button>
-        <el-button type="info" @click="resetParam">重置</el-button>
+        <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
         <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新车辆</el-button>
       
         <div>
@@ -76,40 +76,31 @@ import { getEasyMethod } from "@/utils/common.js";
 export default {
     data() {
       return {
+        search:{
           name:'',
           status:'',
-          tableData: [],
-          status: statusList(),
-          dialogVisible: false,
-          addDialogVisible: false,
-          updateDialogVisible: false,
-          form: carForm(),
-          rules: '',
-          pageSet: {
-            pageNumber: 0,
-            pageSize: 30,
-            pageTotal: 0,
-          }
+        },
+        tableData: [],
+        status: statusList(),
+        dialogVisible: false,
+        addDialogVisible: false,
+        updateDialogVisible: false,
+        form: carForm(),
+        rules: '',
+        pageSet: {
+          pageNumber: 0,
+          pageSize: 30,
+          pageTotal: 0,
+        }
       }
 },
 created() {
   this.rules = carRules(this.form);
-  this.selectCars();
+  this.getMethod("select");
 },
   methods: {
-    selectCars() {
-      selectCar(this.pageSet).then(res => {
-        this.tableData = res.data.list;
-      })
-    },
-    //重置搜索框
-    resetParam(){
-        this.name = '';
-        this.status = '';
-    },
-
     getMethod(type, row){
-      var group = carGroup(this.selectCars);
+      var group = carGroup();
       getEasyMethod(this, type, row, group.methodGroup, group.msgGroup);
     }
   },

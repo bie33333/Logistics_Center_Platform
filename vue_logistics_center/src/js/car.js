@@ -43,13 +43,13 @@ export const carForm = function() {
 
 import request from '../utils/request';
 
-export const carGroup = function(selectMethod) {
+export const carGroup = function() {
     return {
         methodGroup: {
             add: query=>{return request({url:"insertCar",method:'post',params:query})},
             delete: query=>{return request({url:"deleteCar",method:'post',params:query})},
             update: query=>{return request({url:"updateCar",method:'post',params:query})},
-            select: selectMethod
+            select: query=>{return request({url:"selectCar",method:'get',params:query})}
         },
         msgGroup: {
             deleteConfirm:  '确定要删除此车辆吗？', 
@@ -59,5 +59,3 @@ export const carGroup = function(selectMethod) {
           }
     }
 }
-
-export const selectCar = query=>{return request({url:"selectCar",method:'get',params:query})};

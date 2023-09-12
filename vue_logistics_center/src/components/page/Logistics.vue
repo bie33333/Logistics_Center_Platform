@@ -3,8 +3,8 @@
         <el-input v-model="orderId" placeholder="请输入订单编号关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
     
         <el-button type="success" style="margin-left: 10px;">搜索</el-button>
-        <el-button type="info" @click="resetParam">重置</el-button>
-        <el-button size="medium" type="primary" style="margin-left: 10px;" @click="add">增添新物流订单</el-button>
+        <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
+        <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新物流订单</el-button>
       
         <div>
           <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
@@ -30,8 +30,8 @@
             </el-table-column>
             <el-table-column prop="operate" label="操作" width="200">
               <template slot-scope="scope">
-                <el-button type="success" @click="update(scope.row)">修改</el-button>
-                <el-button type="danger">删除</el-button>
+                <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
+                <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -41,7 +41,7 @@
         <!-- 增添表单 -->
         <el-dialog
           title=""
-          :visible.sync="centerDialogVisible"
+          :visible.sync="dialogVisible"
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
@@ -76,77 +76,48 @@
               <el-input v-model="form.description"></el-input>
             </el-form-item>
           </el-form>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">取消</el-button>
-            <el-button type="primary">确定</el-button>
+          <span slot="footer" class="dialog-footer" v-show="addDialogVisible">
+            <el-button @click="addDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="getMethod('addAction ')">确定</el-button>
+          </span>
+          <span slot="footer" class="dialog-footer" v-show="updateDialogVisible">
+            <el-button @click="updateDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="updateAction">确定</el-button>
           </span>
         </el-dialog>
       </div>
 </template>
 
 <script>
-import { logisticList,logisticRule,logisticForm } from "@/js/logostics.js";
+import { logisticRule,logisticForm,logisticGroup } from "@/js/logistics.js";
+import { getEasyMethod } from "@/utils/common.js";
 export default {
-    data() {
-
-let checkDuplicate =(rule,value,callback) => {
-  // if(this.form.userid){
-  //   return callback();
-  // }
-  // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
-  //   if(res.code == 200){
-  //     callback(new Error('Account already exist'));
-  //   }else{
-  //     callback();
-  //   }
-  // })
-}
-
-
-  return {
-      orderId:'',
-      tableData: logisticList(),
-      centerDialogVisible: false,
-      form: logisticForm
-  }
-},
-created() {
-  rules = logisticRule();
-},
-methods: {
-  resetParam(){
-      this.orderId = '';
-  },
-  add(){
-      this.form.orderId='';
-      this.centerDialogVisible = true;
-      this.$nextTick(() => {
-      this.resetForm();
-    })
-  },
-  resetForm() {
-      this.$refs.form.resetFields();
-  },
-  update(row){
-          this.centerDialogVisible = true;
-          this.$nextTick(() => {
-            this.resetForm();
-            this.form.orderId = row.orderId;
-            this.form.userName = row.userName;
-            this.form.userPhone = row.userPhone;
-            this.form.goodName = row.goodName;
-            this.form.number = row.number;
-            this.form.addressee = row.addressee;
-            this.form.addresseePhone = row.addresseePhone;
-            this.form.address = row.address;
-            this.form.carName = row.carName;
-            this.form.description = row.description;
-          }) 
+  data() {
+    return {
+        orderId:'',
+        tableData: [],
+        dialogVisible: false,
+        addDialogVisible: false,
+        updateDialogVisible: false,
+        form: logisticForm,
+        rules: '',
+        pageSet: {
+          pageNumber: 0,
+          pageSize: 30,
+          pageTotal: 0,
         }
-},
-
-mounted: {
-},
+    }
+  },
+  created() {
+    this.rules = logisticRule();
+    this.getMethod('select');
+  },
+  methods: {
+    getMethod(type,row){
+      var group = logisticGroup();
+      getEasyMethod(this,type,row,group.methodGroup,group.msgGroup);
+    }
+  },
 }
 </script>
 
