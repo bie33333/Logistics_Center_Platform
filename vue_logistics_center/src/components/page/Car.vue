@@ -1,8 +1,8 @@
 <template>
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
-        <el-input v-model="carName" placeholder="请输入车辆名称关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
+        <el-input v-model="id" placeholder="请输入车辆编号关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
     
-        <el-select v-model="state" filterable placeholder="请选择车辆状态" style="margin-left: 10px;">
+        <el-select v-model="status" filterable placeholder="请选择车辆状态" style="margin-left: 10px;">
           <el-option
                 v-for="item in states"
                 :key="item.value"
@@ -17,18 +17,23 @@
       
         <div>
           <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
-            <el-table-column prop="carId" label="车辆编号" width="180">
+            <el-table-column prop="id" label="车辆编号" width="180">
             </el-table-column>
-            <el-table-column prop="carName" label="车辆名称" width="120">
+            <el-table-column prop="name" label="车辆名称" width="120">
             </el-table-column>
-            <el-table-column prop="state" label="车辆状态" width="120">
+            <el-table-column prop="status" label="车辆状态" width="120">
             </el-table-column>
-            <el-table-column prop="description" label="车辆描述" width="500">
+            <el-table-column prop="describe" label="车辆描述" width="500">
             </el-table-column>
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
                 <el-button type="success" @click="update(scope.row)">修改</el-button>
-                <el-button type="danger">删除</el-button>
+                <el-popconfirm 
+                    title="确认要删除吗?"
+                    @confirm="del()"
+                    style="margin-left: 10px;">
+                    <el-button slot="reference" type="danger">删除</el-button>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
@@ -42,20 +47,20 @@
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-            <el-form-item label="车辆编号" prop="carId">
-              <el-input v-model="form.carId"></el-input>
+            <el-form-item label="车辆编号" prop="id">
+              <el-input v-model="form.id"></el-input>
             </el-form-item>
-            <el-form-item label="车辆名称" prop="carName">
-                <el-input v-model="form.carName"></el-input>
+            <el-form-item label="车辆名称" prop="name">
+                <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="车辆状态" prop="state">
-                <el-select v-model="form.state" placeholder="请选择仓库">
+            <el-form-item label="车辆状态" prop="status">
+                <el-select v-model="form.status" placeholder="请选择车辆状态">
                   <el-option label="待出车" value="待出车"></el-option>
                   <el-option label="出车中" value="出车中"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="物品描述" prop="description">
-              <el-input v-model="form.description"></el-input>
+            <el-form-item label="物品描述" prop="describe">
+              <el-input v-model="form.describe"></el-input>
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -63,7 +68,20 @@
             <el-button type="primary">确定</el-button>
           </span>
         </el-dialog>
-      </div>
+
+    <!-- 分页 -->
+    <div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="pageSize"
+        layout="prev, pager, next, jumper"
+        :total="pageNum">
+      </el-pagination>
+    </div>
+
+  </div>
 </template>
 
 <script>
@@ -85,14 +103,16 @@ let checkDuplicate =(rule,value,callback) => {
 
 
   return {
-      carName:'',
-      state:'',
+      id:'',
+      status:'',
+      pageSize:1,
+      pageNum:10,
 
       tableData: [{
-      carId:'165askda',
-      carName:'测试车辆1',
-      state:'待出车',
-      description: '测试车辆'
+      id:'165askda',
+      name:'测试车辆1',
+      status:'待出车',
+      describe: '测试车辆'
     }],
 
     states:[
@@ -108,28 +128,28 @@ let checkDuplicate =(rule,value,callback) => {
 
       centerDialogVisible: false,
       form:{
-          carId:'',
-          carName:'',
-          state:'',
-          description:''
+          id:'',
+          name:'',
+          status:'',
+          describe:''
       },
 
       rules: {
-          carId: [
+          id: [
               { required: true, message: '请输入车辆编号', trigger: 'blur' },
               { min: 2, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
               { validator: checkDuplicate, trigger: 'blur' }
           ],
 
-          carName: [
+          name: [
               { required: true, message: '请输入车辆名称', trigger: 'blur' },
           ],
 
-          state:[
+          status:[
           { required: true, message: '请选择车辆状态', trigger: 'change' },
           ],
 
-          description: [
+          describe: [
               { required: true, message: '请输入车辆描述', trigger: 'blur' },
           ],
       }
@@ -139,11 +159,11 @@ let checkDuplicate =(rule,value,callback) => {
 
 methods: {
   resetParam(){
-      this.carName = '';
-      this.state = '';
+      this.id = '';
+      this.status = '';
   },
   add(){
-      this.form.carId='';
+      this.form.id='';
       this.centerDialogVisible = true;
       this.$nextTick(() => {
       this.resetForm();
@@ -156,12 +176,21 @@ methods: {
           this.centerDialogVisible = true;
           this.$nextTick(() => {
             this.resetForm();
-            this.form.carId = row.carId;
-            this.form.carName = row.carName;
-            this.form.state = row.state;
-            this.form.description = row.description;
+            this.form.id = row.id;
+            this.form.name = row.name;
+            this.form.status = row.status;
+            this.form.describe = row.describe;
           }) 
-        }
+  },
+  del(){
+      alert("删除成功");
+  },
+  handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+  },
+  handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+  }
 },
 
 mounted: {

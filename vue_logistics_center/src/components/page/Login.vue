@@ -23,8 +23,52 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
+                <div class="login-btn">
+                    <el-button type="success" @click="addAccount">注册</el-button>
+                </div>               
             </el-form>
         </div>
+
+        <!-- 增添用户表单 -->
+        <el-dialog
+          title=""
+          :visible.sync="centerDialogVisible"
+          width="50%"
+          center>
+          <el-form ref="form" :rules="rules" :model="form" label-width="100px">
+            <el-form-item label="用户账户" prop="userAccount">
+                <el-input v-model="form.userAccount"></el-input>
+              </el-form-item>
+            <el-form-item label="用户密码" prop="userPassword" >
+              <el-input v-model="form.userPassword"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="confirmedPassword">
+              <el-input v-model="form.confirmedPassword" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="用户姓名" prop="userName">
+                <el-input v-model="form.userName"></el-input>
+              </el-form-item>
+            <el-form-item label="联系电话" prop="userPhone">
+                <el-input v-model="form.userPhone"></el-input>
+              </el-form-item>
+            <el-form-item label="年龄" prop="userAge">
+              <el-input v-model="form.userAge"></el-input>
+            </el-form-item>
+            <el-form-item label="性别" prop="userSex">
+                <el-select v-model="form.userSex" placeholder="请选择性别">
+                  <el-option label="男" value="男"></el-option>
+                  <el-option label="女" value="女"></el-option>
+                </el-select>
+              </el-form-item>
+            <el-form-item label="住址" prop="userAddress">
+                <el-input v-model="form.userAddress"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="centerDialogVisible = false">取消</el-button>
+            <el-button type="primary">确认</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -32,6 +76,29 @@
 import { userLogin } from "@/api/login";
 export default {
     data() {
+        var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请确认密码'));
+        } else if (value !== this.form.password) {
+          callback(new Error('两次输入的密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+
+      let checkDuplicate =(rule,value,callback) => {
+        // if(this.form.userid){
+        //   return callback();
+        // }
+        // this.$axios.get(this.$httpUrl+"/user/find/?username="+this.form.username).then(res=>res.data).then(res => {
+        //   if(res.code == 200){
+        //     callback(new Error('Account already exist'));
+        //   }else{
+        //     callback();
+        //   }
+        // })
+      }
+
         return {
             param: {
                 role: '',
@@ -42,6 +109,60 @@ export default {
                 managerId: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
             },
+
+            centerDialogVisible: false,
+
+            
+
+            form:{
+                userName:'',
+                userPassword:'',
+                confirmedPassword:'',
+                userAccount:'',
+                userPhone:'',
+                userAge:'',
+                userSex:'',
+                userAddress:'',
+            },
+
+            rules: {
+                userName: [
+                    { required: true, message: '请输入用户姓名', trigger: 'blur' },
+                    { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
+                ],
+
+                userPassword: [
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 6, max: 10, message: '长度在6至15个字符之间', trigger: 'blur' }
+                ],
+
+                confirmedPassword: [
+                    { validator: validatePass2, trigger: 'blur' }
+                ],
+
+                userAccount: [
+                    { required: true, message: '请输入账户', trigger: 'blur' },
+                    { min: 3, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
+                    { validator: checkDuplicate, trigger: 'blur' }
+                ],
+
+                userPhone: [
+                    { required: true, message: '请输入电话', trigger: 'blur' },
+                    { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
+                ],
+
+                userAge: [
+                    { required: true, message: '请输入年龄', trigger: 'blur' },
+                ],
+
+                userSex:[
+                { required: true, message: '请选择性别', trigger: 'change' },
+                ],
+
+                userAddress: [
+                    { required: true, message: '请输入住址', trigger: 'blur' },
+                ],
+            }
         };
     },
     methods:{
@@ -86,7 +207,19 @@ export default {
                     this.$message.error('服务器错误');
                 }
             })
-        }
+        },
+
+        addAccount(){
+            this.form.account='';
+            this.centerDialogVisible = true;
+            this.$nextTick(() => {
+            this.resetForm();
+          })
+        },
+
+        resetForm() {
+            this.$refs.form.resetFields();
+        },
     }
 }
 </script>

@@ -23,7 +23,12 @@
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
                 <el-button type="success" @click="update(scope.row)">修改</el-button>
-                <el-button type="danger">删除</el-button>
+                <el-popconfirm 
+                    title="确认要删除吗?"
+                    @confirm="del()"
+                    style="margin-left: 10px;">
+                    <el-button slot="reference" type="danger">删除</el-button>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
@@ -52,10 +57,10 @@
             <el-form-item label="联系电话" prop="phone">
                 <el-input v-model="form.phone"></el-input>
               </el-form-item>
-            <el-form-item label="年龄" prop="address">
+            <el-form-item label="年龄" prop="age">
               <el-input v-model="form.age"></el-input>
             </el-form-item>
-            <el-form-item label="性别">
+            <el-form-item label="性别" prop="sex">
                 <el-select v-model="form.sex" placeholder="请选择性别">
                   <el-option label="男" value="男"></el-option>
                   <el-option label="女" value="女"></el-option>
@@ -71,6 +76,18 @@
           </span>
         </el-dialog>
 
+      <!-- 分页 -->
+      <div>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage3"
+          :page-size="pageSize"
+          layout="prev, pager, next, jumper"
+          :total="pageNum">
+        </el-pagination>
+      </div>
+
     </div>
         
 </template>
@@ -79,7 +96,7 @@
 export default {
     data() {
 
-        var validatePass2 = (rule, value, callback) => {
+      var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请确认密码'));
         } else if (value !== this.form.password) {
@@ -105,6 +122,9 @@ export default {
 
         return {
             username:'',
+            pageSize:1,
+            pageNum:10,
+
             tableData: [{
             date: '2016-05-02',
             name: '王小虎',
@@ -204,6 +224,15 @@ export default {
             this.form.sex = row.sex;
             this.form.address = row.address;
           }) 
+        },
+        del(){
+          alert("删除成功");
+        },
+        handleSizeChange(val) {
+          console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+          console.log(`当前页: ${val}`);
         }
     },
 
