@@ -21,6 +21,20 @@ public class GoodController {
     @Autowired
     WarehouseService warehouseService;
 
+
+
+
+    @RequestMapping("lookupGood")
+    public PageResult<Good> lookupGood(String pageNumber, String pageSize
+            , String name, String warehouse) {
+        int p_num = Integer.parseInt(pageNumber);
+        int p_size = Integer.parseInt(pageSize);
+
+        Good good = new Good();
+        good.setName(name);
+        good.setWarehouse(warehouse);
+        return goodService.lookupGood(p_num,p_size,good);
+    }
     /**
      * 分页查找所有物品
      *

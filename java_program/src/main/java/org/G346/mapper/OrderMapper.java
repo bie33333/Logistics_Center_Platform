@@ -12,5 +12,6 @@ public interface OrderMapper {
 
     List<Order> selectAll();
     List<Order> findOrderById(String id);
+    List<Order> lookupOrder(Order order);
     int updateByPrimaryKey(Order row);
 }

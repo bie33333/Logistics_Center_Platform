@@ -27,6 +27,11 @@ public class OrderService {
         return PageResult.build(orders);
     }
 
+    public PageResult<Order> lookupOrder(int pageNumber, int pageSize, Order order){
+        PageResult.startPage(pageNumber,pageSize);
+        List<Order> orders = orderMapper.lookupOrder(order);
+        return PageResult.build(orders);
+    }
     public PageResult<Order> selectAll(){
         List<Order> orders = orderMapper.selectAll();
         return PageResult.build(orders);

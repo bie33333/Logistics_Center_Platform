@@ -38,6 +38,14 @@
     from user
     where account = #{userAccount,jdbcType=VARCHAR}
   </select>
+  <select id="lookupUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * FROM user
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE '%${name}%'
+      </if>
+    </where>
+  </select>
   <select id="findUserByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
     select *
     from user

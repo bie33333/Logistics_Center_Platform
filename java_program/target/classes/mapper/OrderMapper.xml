@@ -59,4 +59,16 @@
     select *
     from `order`
   </select>
+  <select id="lookupOrder" parameterType="org.G346.pojo.Order" resultMap="BaseResultMap">
+    SELECT *
+    from `order`
+    <where>
+        <if test="id != null and id != ''">
+            id LIKE '%${id}%'
+        </if>
+        <if test="orderStatus != -1">
+            order_status = #{orderStatus}
+        </if>
+    </where>
+  </select>
 </mapper>
