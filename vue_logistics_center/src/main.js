@@ -13,18 +13,18 @@ Vue.config.productionTip = false
 
 
 
-// router.beforeEach((to, from, next) => {
-//   console.log(to.path);
-//   if(to.path == '/login'){
-//     next();
-//   }else if(to.path.substring(0,6) == '/index' && localStorage.getItem('managerId')){
-//       next();
-//   }else if(to.path.substring(0,11) == '/memberView' && localStorage.getItem('memberId')){
-//       next();
-//   }else
-//     next('/login');
-//   }
-// );
+router.beforeEach((to, from, next) => {
+  console.log(to.path);
+  if(to.path == '/login'){
+    next();
+  }else if(to.path.substring(0,6) == '/index' && localStorage.getItem('manager')){
+      next();
+  }else if(to.path.substring(0,6) == '/index' && localStorage.getItem('user')){
+      next();
+  }else
+    next('/login');
+  }
+);
 
  
 

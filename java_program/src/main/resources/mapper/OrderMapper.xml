@@ -33,7 +33,7 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.G346.pojo.Order">
     update `order`
-    set userAccount = #{userAccount, jdbcType=VARCHAR},
+    set user_account = #{userAccount, jdbcType=VARCHAR},
         user_name = #{userName, jdbcType=VARCHAR},
         user_phone = #{userPhone, jdbcType=VARCHAR},
         good_id = #{goodId, jdbcType=VARCHAR},

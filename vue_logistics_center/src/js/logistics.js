@@ -117,7 +117,7 @@ export const logisticGroup = function() {
       msgGroup: {
           deleteConfirm:  '确定要删除吗？', 
           deleteSuccess: "删除成功", 
-          addSuccess: "增加车辆成功",
+          addSuccess: "增加订单成功",
           updateSuccess: "修改成功",
         }
   }

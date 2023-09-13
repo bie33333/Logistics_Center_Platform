@@ -224,7 +224,7 @@ public class OrderController {
         User user = userService.selectByPrimaryKey(userAccount);
         if (user == null) {
             return Result.error(400, "修改失败，用户不存在！", null);
-        } else if (user.getUserName()!=userName||user.getUserPhone()!=userPhone) {
+        } else if (!user.getUserName().equals(userName) || !user.getUserPhone().equals(userPhone)) {
             return Result.error(400,"用户姓名或电话错误！",null);
         }else {
             order.setUserAccount(userAccount);
@@ -235,7 +235,7 @@ public class OrderController {
         Good good= goodService.selectByPrimaryKey(goodId);
         if (good == null) {
             return Result.error(400, "修改失败，物品不存在！", null);
-        } else if (good.getName()!=goodName) {
+        } else if (!good.getName().equals(goodName)) {
             return Result.error(400,"物品名错误！",null);
         }else {
             order.setGoodId(goodId);
@@ -245,7 +245,7 @@ public class OrderController {
         Car car =carService.selectByPrimaryKey(carId);
         if (car == null) {
             return Result.error(400, "修改失败，车辆不存在！", null);
-        } else if (car.getName()!=carName) {
+        } else if (!car.getName().equals(carName)) {
             return Result.error(400,"车辆名错误！",null);
         }else {
             order.setCarId(carId);
