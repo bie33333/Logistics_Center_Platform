@@ -2,7 +2,7 @@
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
         <el-input v-model="search.id" placeholder="请输入订单编号关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
 
-        <el-select v-model="search.orderStatus" filterable placeholder="请选择订单状态" style="margin-left: 10px;">
+        <el-select v-model="search.orderStatus" clearable placeholder="请选择订单状态" style="margin-left: 10px;">
           <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -42,6 +42,11 @@
             <el-table-column prop="carName" label="车辆名称" width="120">
             </el-table-column>
             <el-table-column prop="orderStatus" label="订单状态" width="120">
+              <template slot-scope="scope">
+                <el-tag
+                  :type="scope.row.orderStatus === 0 ? 'primary' : 'success'"
+                  disable-transition>{{ scope.row.orderStatus === 0 ? '已完成' : '进行中' }}</el-tag>
+              </template>
             </el-table-column>
             <el-table-column prop="price" label="订单价格" width="120">
             </el-table-column>
@@ -102,8 +107,8 @@
             </el-form-item>
             <el-form-item label="订单状态" prop="orderStatus">
               <el-select v-model="form.orderStatus" placeholder="请选择仓库">
-                <el-option label="待发货" value="待发货"></el-option>
-                <el-option label="运送中" value="运送中"></el-option>
+                <el-option label="已完成" value="0"></el-option>
+                <el-option label="进行中" value="1"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="订单价格" prop="price">
@@ -114,11 +119,11 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer" v-show="addDialogVisible">
-            <el-button @click="addDialogVisible = false">取消</el-button>
+            <el-button @click="addDialogVisible = false; dialogVisible = false">取消</el-button>
             <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
           </span>
           <span slot="footer" class="dialog-footer" v-show="updateDialogVisible">
-            <el-button @click="updateDialogVisible = false">取消</el-button>
+            <el-button @click="updateDialogVisible = false; dialogVisible = false">取消</el-button>
             <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
           </span>
         </el-dialog>
@@ -147,18 +152,18 @@ export default {
         status: [
           {
             value:'0',
-            label:'0'
+            label:'已完成'
           },
           {
             value:'1',
-            label:'1'
+            label:'进行中'
           },
         ],
         tableData: [],
         dialogVisible: false,
         addDialogVisible: false,
         updateDialogVisible: false,
-        form: logisticForm,
+        form: logisticForm(),
         rules: '',
         pageSet: {
           pageNumber: 0,

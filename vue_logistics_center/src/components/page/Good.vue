@@ -2,7 +2,7 @@
   <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
     <el-input v-model="search.name" placeholder="请输入物品名关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
 
-    <el-select v-model="search.warehouse" filterable placeholder="请选择存储仓库" style="margin-left: 10px;">
+    <el-select v-model="search.warehouse" clearable placeholder="请选择存储仓库" style="margin-left: 10px;">
       <el-option
             v-for="item in warehouses"
             :key="item.value"
@@ -55,7 +55,6 @@
               <el-option label="仓库1" value="仓库1"></el-option>
               <el-option label="仓库2" value="仓库2"></el-option>
               <el-option label="仓库3" value="仓库3"></el-option>
-              <el-option label="仓库4" value="仓库4"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="物品数量" prop="number">

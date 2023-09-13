@@ -2,7 +2,7 @@ export const goodRules = function(form) {
   return {
     id: [
         { required: true, message: '请输入物品编号', trigger: 'blur' },
-        { min: 2, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
+        // { min: 2, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
     ],
 
     name: [
@@ -36,10 +36,6 @@ export const warehouseList = function() {
     {
       value:'仓库3',
       label:'仓库3'
-    },
-    {
-      value:'仓库4',
-      label:'仓库4'
     },
   ]
 }

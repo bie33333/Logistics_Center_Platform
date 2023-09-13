@@ -2,7 +2,7 @@
     <div style="margin-bottom: 5px;margin-top: 5px;border-radius: 30%;">
         <el-input v-model="search.name" placeholder="请输入车辆名称关键字" suffix-icon="el-icon-search" style="width: 300px;"></el-input>
     
-        <el-select v-model="search.status" filterable placeholder="请选择车辆状态" style="margin-left: 10px;">
+        <el-select v-model="search.status" clearable placeholder="请选择车辆状态" style="margin-left: 10px;">
           <el-option
                 v-for="item in status"
                 :key="item.value"
@@ -22,6 +22,9 @@
             <el-table-column prop="name" label="车辆名称" width="120">
             </el-table-column>
             <el-table-column prop="status" label="车辆状态" width="120">
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status | formatStata }}</el-tag>
+              </template>
             </el-table-column>
             <el-table-column prop="describe" label="车辆描述" width="500">
             </el-table-column>
@@ -50,8 +53,9 @@
             </el-form-item>
             <el-form-item label="车辆状态" prop="status">
                 <el-select v-model="form.status" placeholder="车辆状态">
-                  <el-option label="待出车" value="0"></el-option>
-                  <el-option label="出车中" value="1"></el-option>
+                  <el-option label="配送中" value="1"></el-option>
+                  <el-option label="空闲中" value="2"></el-option>
+                  <el-option label="维修中" value="3"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="物品描述" prop="describe">
@@ -59,11 +63,11 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer" v-show="addDialogVisible">
-            <el-button @click="addDialogVisible = false">取消</el-button>
+            <el-button @click="addDialogVisible = false;dialogVisible = false">取消</el-button>
             <el-button type="primary" @click="getMethod('addAction')">确定</el-button>
           </span>
           <span slot="footer" class="dialog-footer" v-show="updateDialogVisible">
-            <el-button @click="updateDialogVisible = false">取消</el-button>
+            <el-button @click="updateDialogVisible = false;dialogVisible = false">取消</el-button>
             <el-button type="primary" @click="getMethod('updateAction')">确定</el-button>
           </span>
         </el-dialog>
@@ -86,6 +90,26 @@
 import { carRules, carForm, statusList, carGroup, lookupCar } from "@/js/car.js";
 import { getEasyMethod } from "@/utils/common.js";
 export default {
+  filters: {
+    statusFilter(status){
+      const statusMap = {
+        1:'success',
+        2:'primary',
+        3:'danger'
+      }
+      return statusMap[status]
+    },
+
+    formatStata(status) {
+      const statusMap = {
+        1: '配送中',
+        2: '空闲中',
+        3: '维修中'
+      }
+      return statusMap[status]
+    }
+  },
+
     data() {
       return {
         search:{

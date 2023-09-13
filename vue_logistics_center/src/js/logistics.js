@@ -17,27 +17,27 @@ export const logisticRule = function() {
   return {
       id: [
         { required: true, message: '请输入订单编号', trigger: 'blur' },
-        { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
+        // { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
       ],
 
       userAccount:[
         { required: true, message: '请输入用户账户', trigger: 'blur' },
-        { min: 6, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' }
+        // { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' }
       ],
 
       userName: [
         { required: true, message: '请输入用户名称', trigger: 'blur' },
-        { min: 6, max: 10, message: '长度在2至15个字符之间', trigger: 'blur' }
+        // { min: 2, max: 15, message: '长度在2至15个字符之间', trigger: 'blur' }
       ],
 
       userPhone: [
-              { required: true, message: '请输入联系电话', trigger: 'blur' },
-              { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
+        { required: true, message: '请输入联系电话', trigger: 'blur' },
+        // { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
       ],
 
       goodId: [
         { required: true, message: '请输入物品编号', trigger: 'blur' },
-        { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
+        // { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
       ],
 
       goodName: [
@@ -53,8 +53,8 @@ export const logisticRule = function() {
       ],
 
       addressPhone: [
-              { required: true, message: '请输入收件电话', trigger: 'blur' },
-              { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
+        { required: true, message: '请输入收件电话', trigger: 'blur' },
+        // { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
       ],
 
       address: [
@@ -115,7 +115,7 @@ export const logisticGroup = function() {
           lookup: query=>{return request({url:"lookupOrder",method:'get',params:query})},
       },
       msgGroup: {
-          deleteConfirm:  '确定要删除此车辆吗？', 
+          deleteConfirm:  '确定要删除吗？', 
           deleteSuccess: "删除成功", 
           addSuccess: "增加车辆成功",
           updateSuccess: "修改成功",
