@@ -110,7 +110,7 @@ export const userGroup = function() {
         msgGroup: {
             deleteConfirm:  '确定要删除此用户吗？', 
             deleteSuccess: "删除成功", 
-            addSuccess: "增加车辆成功",
+            addSuccess: "增加用户成功",
             updateSuccess: "修改成功",
           }
     }

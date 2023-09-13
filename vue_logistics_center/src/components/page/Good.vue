@@ -44,8 +44,11 @@
       width="50%"
       center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-        <el-form-item label="物品编号" prop="id">
+        <el-form-item v-if="addDialogVisible === true" label="物品编号" prop="id">
           <el-input v-model="form.id"></el-input>
+        </el-form-item>
+        <el-form-item v-else label="物品编号" prop="id">
+          <el-input :value="form.id"></el-input>
         </el-form-item>
         <el-form-item label="物品名称" prop="name">
             <el-input v-model="form.name"></el-input>

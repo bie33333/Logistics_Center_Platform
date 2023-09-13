@@ -32,6 +32,7 @@
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
+                <el-button type="info">维修</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -45,19 +46,22 @@
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-            <el-form-item label="车辆编号" prop="id">
+            <el-form-item v-if="addDialogVisible === true" label="车辆编号" prop="id">
               <el-input v-model="form.id"></el-input>
+            </el-form-item>
+            <el-form-item v-else label="车辆编号" prop="id">
+              <el-input :value="form.id"></el-input>
             </el-form-item>
             <el-form-item label="车辆名称" prop="name">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="车辆状态" prop="status">
+            <!-- <el-form-item label="车辆状态" prop="status">
                 <el-select v-model="form.status" placeholder="车辆状态">
                   <el-option label="配送中" value="1"></el-option>
                   <el-option label="空闲中" value="2"></el-option>
                   <el-option label="维修中" value="3"></el-option>
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="物品描述" prop="describe">
               <el-input v-model="form.describe"></el-input>
             </el-form-item>

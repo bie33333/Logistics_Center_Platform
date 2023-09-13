@@ -52,10 +52,11 @@
             </el-table-column>
             <el-table-column prop="orderDescribe" label="物流描述" width="300">
             </el-table-column>
-            <el-table-column prop="operate" label="操作" width="200">
+            <el-table-column prop="operate" label="操作" width="300">
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
+                <el-button type="warning">完成订单</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -69,24 +70,36 @@
           width="50%"
           center>
           <el-form ref="form" :rules="rules" :model="form" label-width="100px">
-            <el-form-item label="订单编号" prop="id">
+            <el-form-item v-if="addDialogVisible === true" label="订单编号" prop="id">
               <el-input v-model="form.id"></el-input>
             </el-form-item>
-            <el-form-item label="用户账号" prop="userAccount">
+            <el-form-item v-if="updateDialogVisible === true" label="订单编号" prop="id">
+              <el-input :value="form.id"></el-input>
+            </el-form-item>
+            <el-form-item v-if="addDialogVisible === true" label="用户账号" prop="userAccount">
               <el-input v-model="form.userAccount"></el-input>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item v-if="updateDialogVisible === true" label="用户账号" prop="userAccount">
+              <el-input :value="form.userAccount"></el-input>
+            </el-form-item>
             <!-- <el-form-item label="用户姓名" prop="userName">
                 <el-input v-model="form.userName"></el-input>
             </el-form-item> -->
             <!-- <el-form-item label="寄送物品" prop="goodName">
                 <el-input v-model="form.goodName"></el-input>
             </el-form-item> -->
-            <el-form-item label="物品编号" prop="goodId">
+            <el-form-item v-if="addDialogVisible === true" label="物品编号" prop="goodId">
               <el-input v-model="form.goodId"></el-input>
-          </el-form-item>
-            <el-form-item label="物品数量" prop="goodNumber">
+            </el-form-item>
+            <el-form-item v-if="updateDialogVisible === true" label="物品编号" prop="goodId">
+              <el-input :value="form.goodId"></el-input>
+            </el-form-item>
+            <el-form-item v-if="addDialogVisible === true" label="物品数量" prop="goodNumber">
                 <el-input v-model="form.goodNumber"></el-input>
             </el-form-item>
+            <el-form-item v-if="updateDialogVisible === true" label="物品数量" prop="goodNumber">
+              <el-input :value="form.goodNumber"></el-input>
+          </el-form-item>
             <!-- <el-form-item label="联系电话" prop="userPhone">
                 <el-input v-model="form.userPhone"></el-input>
             </el-form-item> -->
@@ -99,18 +112,21 @@
             <el-form-item label="收件地址" prop="address">
                 <el-input v-model="form.address"></el-input>
             </el-form-item>
-            <el-form-item label="车辆编号" prop="carId">
+            <el-form-item v-if="addDialogVisible === true" label="车辆编号" prop="carId">
               <el-input v-model="form.carId"></el-input>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item v-if="updateDialogVisible === true" label="车辆编号" prop="carId">
+              <el-input :value="form.carId"></el-input>
+            </el-form-item>
             <!-- <el-form-item label="车辆名称" prop="carName">
                 <el-input v-model="form.carName"></el-input>
             </el-form-item> -->
-            <el-form-item label="订单状态" prop="orderStatus">
+            <!-- <el-form-item label="订单状态" prop="orderStatus">
               <el-select v-model="form.orderStatus" placeholder="请选择订单状态">
                 <el-option label="已完成" value="0"></el-option>
                 <el-option label="进行中" value="1"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="订单价格" prop="price">
               <el-input v-model="form.price"></el-input>
           </el-form-item>

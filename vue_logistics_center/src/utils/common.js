@@ -53,6 +53,9 @@ export const getEasyMethod = function(object, type, row, methodGroup, msgGroup){
                 object.pageSet.pageTotal = res.data.pageTotal;
                 object.tableData = res.data.list;
                 console.log(object.tableData);
+                object.dialogVisible = false;
+                object.updateDialogVisible = false;
+                object.addDialogVisible = false;
             })
         }
         var search = function(){
@@ -62,6 +65,9 @@ export const getEasyMethod = function(object, type, row, methodGroup, msgGroup){
             object.tableData = res.data.list;
             object.pageSet.pageTotal = res.data.pageTotal;
           })
+          object.dialogVisible = false;
+          object.updateDialogVisible = false;
+          object.addDialogVisible = false;
         }
         if(type==='select'){
           select();

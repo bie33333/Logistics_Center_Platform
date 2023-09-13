@@ -40,9 +40,12 @@
             <el-form-item label="用户姓名" prop="userName">
               <el-input v-model="form.userName"></el-input>
             </el-form-item>
-            <el-form-item label="用户账户" prop="userAccount">
-                <el-input v-model="form.userAccount"></el-input>
-              </el-form-item>
+            <el-form-item v-if="addDialogVisible === true" label="用户账户" prop="userAccount">
+              <el-input v-model="form.userAccount"></el-input>
+            </el-form-item>
+            <el-form-item v-else label="用户账户" prop="userAccount">
+              <el-input :value="form.userAccount"></el-input>
+            </el-form-item>
             <el-form-item label="用户密码" prop="userPassword" >
               <el-input v-model="form.userPassword"></el-input>
             </el-form-item>
