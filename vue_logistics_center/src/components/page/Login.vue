@@ -10,7 +10,7 @@
                 </el-select>
                 </el-form-item>
                 <el-form-item prop="username">
-                    <el-input v-model="param.id" placeholder="username">
+                    <el-input v-model="param.account" placeholder="username">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
@@ -73,74 +73,25 @@
 </template>
 
 <script>
-import { userLogin } from "@/js/login";
+import { loginRule, loginForm, managerLogin, userLogin } from "@/js/login.js";
+
 export default {
     data() {
 
         return {
             param: {
                 role: '',
-                id: '',
+                account: '',
                 password: '',
             },
-            rules: {
-                managerId: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-            },
-
             dialogVisible: false,
             addDialogVisible: false,
-
-            form:{
-                userName:'',
-                userPassword:'',
-                confirmedPassword:'',
-                userAccount:'',
-                userPhone:'',
-                userAge:'',
-                userSex:'',
-                userAddress:'',
-            },
-
-            rules: {
-                userName: [
-                    { required: true, message: '请输入用户姓名', trigger: 'blur' },
-                    { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
-                ],
-
-                userPassword: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 10, message: '长度在6至15个字符之间', trigger: 'blur' }
-                ],
-
-                userconfirmedPassword: [
-                    // { validator: validatePass2, trigger: 'blur' }
-                ],
-
-                userAccount: [
-                    { required: true, message: '请输入账户', trigger: 'blur' },
-                    { min: 3, max: 10, message: '长度在3至10个字符之间', trigger: 'blur' },
-                    // { validator: checkDuplicate, trigger: 'blur' }
-                ],
-
-                userPhone: [
-                    { required: true, message: '请输入电话', trigger: 'blur' },
-                    { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
-                ],
-
-                userAge: [
-                    { required: true, message: '请输入年龄', trigger: 'blur' },
-                ],
-
-                userSex:[
-                { required: true, message: '请选择性别', trigger: 'change' },
-                ],
-
-                userAddress: [
-                    { required: true, message: '请输入住址', trigger: 'blur' },
-                ],
-            }
+            form: loginForm(),
+            rules: '',
         };
+    },
+    created(){
+        this.rules = loginRule();
     },
     methods:{
         submitForm(){
@@ -154,41 +105,38 @@ export default {
             
         },
         handleManagerLogin(){
-            managerLogin(this.param).then(res=>{
-                if(res.status==200) {
-                    if(res.data){
-                        this.$message.success('登录成功');
-                        localStorage.setItem('managerId', this.param.id);
-                        // this.$router.push('/index/dashboard');
-                    } 
-                    else{
-                        this.$message.error('登录失败');
-                    }
+            console.log('managerLogin');
+            var manager = {
+                account : this.param.account, password: this.param.password
+            }
+            console.log(manager);
+            managerLogin(manager).then(res=>{
+                var result = res.data
+                if(result.status==200) {
+                    this.$message.success('登录成功');
+                    localStorage.setItem('manager', JSON.stringify(manager));
+                    this.$router.push('/home');
                 }else{
-                    this.$message.error('服务器错误');
+                    this.$message.error(result.msg);
                 }
             })
         },
         handleUserLogin(){
-            memberLogin(this.param).then(res=>{
-                if(res.status==200) {
-                    if(res.data){
-                        this.$message.success('登录成功');
-                        localStorage.setItem('memberId', this.param.id);
-                        // this.$router.push('/memberView');
-                    } 
-                    else{
-                        this.$message.error('登录失败');
-                    }
+            console.log('userLogin');
+            var user = {
+                userAccount : this.param.account, userPassword: this.param.password
+            }
+            userLogin(user).then(res=>{
+                var result = res.data;
+                console.log(result);
+                if(result.status===200) {
+                    this.$message.success('登录成功');
+                    localStorage.setItem('user', JSON.stringify(user));
+                    this.$router.push('/home');
                 }else{
-                    this.$message.error('服务器错误');
+                    this.$message.error(result.msg);
                 }
             })
-        },
-
-
-        resetForm() {
-            this.$refs.form.resetFields();
         },
     }
 }

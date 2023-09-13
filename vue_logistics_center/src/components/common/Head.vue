@@ -36,19 +36,21 @@ export default {
         }
     },
     methods: {
-        handleCommand(command) {
-            if (command == 'loginOut') {
-                // localStorage.removeItem('ms_username');
-                this.$router.push('/');
-            }
-        },
         collapseChange() {
             this.collapse = !this.collapse;
             bus.$emit('collapse',this.collapse);
         },
         handleCommand(command) {
             if (command == 'loginOut') {
-                localStorage.removeItem('managerId');
+                if(localStorage.getItem('manager')){
+                    console.log('admin loginOut');
+                    console.log(JSON.parse(localStorage.getItem('manager')));
+                    localStorage.removeItem('manager');
+                }else if(localStorage.getItem('user')){
+                    console.log('user loginOut');
+                    console.log(JSON.parse(localStorage.getItem('user')));
+                    localStorage.removeItem('user');
+                };
                 this.$router.push('/login');
             }
         },

@@ -229,7 +229,9 @@ public class OrderController {
         User user = userService.selectByPrimaryKey(userAccount);
         if (user == null) {
             return Result.error(400, "修改失败，用户不存在！", null);
-        } else if (!Objects.equals(user.getUserName(), userName) || !Objects.equals(user.getUserPhone(), userPhone)) {
+
+        }  else if (!user.getUserName().equals(userName) || !user.getUserPhone().equals(userPhone)) {
+
             return Result.error(400,"用户姓名或电话错误！",null);
         }else {
             order.setUserAccount(userAccount);
@@ -241,7 +243,9 @@ public class OrderController {
         int difference = Integer.parseInt(goodNumber)-order.getGoodNumber();
         if (good == null) {
             return Result.error(400, "修改失败，物品不存在！", null);
-        } else if (!Objects.equals(good.getName(), goodName)) {
+
+        }  else if (!good.getName().equals(goodName)) {
+
             return Result.error(400,"物品名错误！",null);
         }else if(difference>good.getNumber()){
             return Result.error(400,"物品库存不足",null);
@@ -257,7 +261,9 @@ public class OrderController {
         Car car =carService.selectByPrimaryKey(carId);
         if (car == null) {
             return Result.error(400, "修改失败，车辆不存在！", null);
-        } else if (!Objects.equals(car.getName(), carName)) {
+
+        }  else if (!car.getName().equals(carName)) {
+
             return Result.error(400,"车辆名错误！",null);
         }else {
             order.setCarId(carId);

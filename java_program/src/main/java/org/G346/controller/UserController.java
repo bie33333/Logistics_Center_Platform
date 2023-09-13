@@ -43,7 +43,7 @@ public class UserController {
             String loginPassword = user.getUserPassword();
             if (loginPassword.equals(userPassword)) {
 //                System.out.println("登陆成功！");
-                return Result.ok();
+                return Result.ok(user);
             } else {
                 return Result.error(400, "密码错误!");
             }
