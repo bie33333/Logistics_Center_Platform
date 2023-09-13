@@ -50,12 +50,14 @@ export default {
             if (command == 'loginOut') {
                 if(localStorage.getItem('manager')){
                     console.log('admin loginOut');
-                    console.log(JSON.parse(localStorage.getItem('manager')));
+                    // console.log(JSON.parse(localStorage.getItem('manager')));
                     localStorage.removeItem('manager');
+                    console.log(JSON.parse(localStorage.getItem('manager')));
                 }else if(localStorage.getItem('user')){
                     console.log('user loginOut');
-                    console.log(JSON.parse(localStorage.getItem('user')));
+                    // console.log(JSON.parse(localStorage.getItem('user')));
                     localStorage.removeItem('user');
+                    console.log(JSON.parse(localStorage.getItem('user')));
                 };
                 this.$router.push('/login');
             }

@@ -115,6 +115,8 @@ export default {
                 if(result.status==200) {
                     this.$message.success('登录成功');
                     localStorage.setItem('manager', JSON.stringify(result.data));
+                    console.log(JSON.parse(localStorage.getItem('user')));
+                    console.log(JSON.parse(localStorage.getItem('manager')));
                     this.$router.push('/home');
                 }else{
                     this.$message.error(result.msg);
@@ -132,6 +134,8 @@ export default {
                 if(result.status===200) {
                     this.$message.success('登录成功');
                     localStorage.setItem('user', JSON.stringify(result.data));
+                    console.log(JSON.parse(localStorage.getItem('user')));
+                    console.log(JSON.parse(localStorage.getItem('manager')));
                     this.$router.push('/home');
                 }else{
                     this.$message.error(result.msg);
