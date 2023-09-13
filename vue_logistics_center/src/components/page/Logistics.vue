@@ -75,21 +75,21 @@
             <el-form-item label="用户账号" prop="userAccount">
               <el-input v-model="form.userAccount"></el-input>
           </el-form-item>
-            <el-form-item label="用户姓名" prop="userName">
+            <!-- <el-form-item label="用户姓名" prop="userName">
                 <el-input v-model="form.userName"></el-input>
-            </el-form-item>
-            <el-form-item label="寄送物品" prop="goodName">
+            </el-form-item> -->
+            <!-- <el-form-item label="寄送物品" prop="goodName">
                 <el-input v-model="form.goodName"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="物品编号" prop="goodId">
               <el-input v-model="form.goodId"></el-input>
           </el-form-item>
             <el-form-item label="物品数量" prop="goodNumber">
                 <el-input v-model="form.goodNumber"></el-input>
             </el-form-item>
-            <el-form-item label="联系电话" prop="userPhone">
+            <!-- <el-form-item label="联系电话" prop="userPhone">
                 <el-input v-model="form.userPhone"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="收件人" prop="addressee">
                 <el-input v-model="form.addressee"></el-input>
             </el-form-item>
@@ -102,11 +102,11 @@
             <el-form-item label="车辆编号" prop="carId">
               <el-input v-model="form.carId"></el-input>
           </el-form-item>
-            <el-form-item label="车辆名称" prop="carName">
+            <!-- <el-form-item label="车辆名称" prop="carName">
                 <el-input v-model="form.carName"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="订单状态" prop="orderStatus">
-              <el-select v-model="form.orderStatus" placeholder="请选择仓库">
+              <el-select v-model="form.orderStatus" placeholder="请选择订单状态">
                 <el-option label="已完成" value="0"></el-option>
                 <el-option label="进行中" value="1"></el-option>
               </el-select>
