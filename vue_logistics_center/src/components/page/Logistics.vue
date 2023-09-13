@@ -73,13 +73,13 @@
             <el-form-item v-if="addDialogVisible === true" label="订单编号" prop="id">
               <el-input v-model="form.id"></el-input>
             </el-form-item>
-            <el-form-item v-if="updateDialogVisible === true" label="订单编号" prop="id">
+            <el-form-item v-else label="订单编号" prop="id">
               <el-input :value="form.id"></el-input>
             </el-form-item>
             <el-form-item v-if="addDialogVisible === true" label="用户账号" prop="userAccount">
               <el-input v-model="form.userAccount"></el-input>
             </el-form-item>
-            <el-form-item v-if="updateDialogVisible === true" label="用户账号" prop="userAccount">
+            <el-form-item v-else label="用户账号" prop="userAccount">
               <el-input :value="form.userAccount"></el-input>
             </el-form-item>
             <!-- <el-form-item label="用户姓名" prop="userName">
@@ -91,13 +91,13 @@
             <el-form-item v-if="addDialogVisible === true" label="物品编号" prop="goodId">
               <el-input v-model="form.goodId"></el-input>
             </el-form-item>
-            <el-form-item v-if="updateDialogVisible === true" label="物品编号" prop="goodId">
+            <el-form-item v-else label="物品编号" prop="goodId">
               <el-input :value="form.goodId"></el-input>
             </el-form-item>
             <el-form-item v-if="addDialogVisible === true" label="物品数量" prop="goodNumber">
                 <el-input v-model="form.goodNumber"></el-input>
             </el-form-item>
-            <el-form-item v-if="updateDialogVisible === true" label="物品数量" prop="goodNumber">
+            <el-form-item v-else label="物品数量" prop="goodNumber">
               <el-input :value="form.goodNumber"></el-input>
           </el-form-item>
             <!-- <el-form-item label="联系电话" prop="userPhone">
@@ -115,7 +115,7 @@
             <el-form-item v-if="addDialogVisible === true" label="车辆编号" prop="carId">
               <el-input v-model="form.carId"></el-input>
             </el-form-item>
-            <el-form-item v-if="updateDialogVisible === true" label="车辆编号" prop="carId">
+            <el-form-item v-else label="车辆编号" prop="carId">
               <el-input :value="form.carId"></el-input>
             </el-form-item>
             <!-- <el-form-item label="车辆名称" prop="carName">
