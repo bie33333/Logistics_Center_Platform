@@ -4,7 +4,7 @@
                 ></el-input>
         <el-button type="success" style="margin-left: 10px;" @click="getMethod('search')">搜索</el-button>
         <el-button type="info" @click="getMethod('resetButton')">重置</el-button>
-        <el-button size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新账户</el-button>
+        <el-button v-if="admin !== null" size="medium" type="primary" style="margin-left: 10px;" @click="getMethod('addButton')">增添新账户</el-button>
       
         <div>
           <el-table :data="tableData" :header-cell-style="{ background:'orange',color:'black'}" border>
@@ -22,8 +22,8 @@
             </el-table-column>
             <el-table-column prop="operate" label="操作">
               <template slot-scope="scope">
-                <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
-                <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
+                <el-button v-if="admin !== null" type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
+                <el-button v-if="admin !== null" type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -96,6 +96,8 @@ import { getEasyMethod } from "@/utils/common.js";
 export default {
     data() {
         return {
+          admin: JSON.parse(localStorage.getItem('manager')),
+
             search:{
               userName:'',
             },
