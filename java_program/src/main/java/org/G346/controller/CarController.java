@@ -20,8 +20,10 @@ public class CarController {
     CarService carService;
     @Autowired
     OrderService orderService;
+
     /**
      * 模糊查询
+     *
      * @param pageNumber
      * @param pageSize
      * @param name
@@ -88,19 +90,19 @@ public class CarController {
      */
     @RequestMapping("insertCar")
     public Result insertCar(String id, String name
-            , String status, String describe) {
+            , String describe) {
         if (id == null || id.equals(""))
             return Result.error(400, "车辆id不能为空!", null);
         if (name == null || name.equals(""))
             return Result.error(400, "车辆名不能为空!", null);
-        if (status == null || status.equals(""))
-            return Result.error(400, "车辆状态不能为空!", null);
+//        if (status == null || status.equals(""))
+//            return Result.error(400, "车辆状态不能为空!", null);
         if (describe == null || describe.equals(""))
             return Result.error(400, "车辆外观描述不能为空!", null);
         Car car = new Car();
         car.setId(id);
         car.setName(name);
-        car.setStatus(Integer.parseInt(status));
+        car.setStatus(2);
         car.setDescribe(describe);
 
         if (carService.selectByPrimaryKey(id) != null) {
@@ -123,16 +125,15 @@ public class CarController {
      */
     @RequestMapping("deleteCar")
     public Result deleteCar(String id) {
-        Order order = orderService.selectByCarId(id);
+        Car car = carService.selectByPrimaryKey(id);
         if (id == null || id.equals(""))
             return Result.error(400, "车牌号不能为空!", null);
-        if (carService.selectByPrimaryKey(id) == null) {
+        if (car == null) {
             return Result.error(400, "删除失败，车辆不存在！");
-        }if(order != null&&order.getOrderStatus()==1){
-
-            return Result.error(400,"删除失败，车辆存在相关订单！");
         }
-        else {
+        if (car.getStatus()==1) {
+            return Result.error(400, "删除失败，车辆正在配送中！");
+        } else {
             carService.deleteByPrimaryKey(id);
             return Result.ok();
         }
@@ -143,13 +144,13 @@ public class CarController {
      *
      * @param id
      * @param name
-     * @param status
+
      * @param describe
      * @return
      */
     @RequestMapping("updateCar")
-    public Result updateUser(String id, String name
-            , String status, String describe
+    public Result updateCar(String id, String name
+            , String describe
     ) {
         if (id == null || id.equals(""))
             return Result.error(400, "车牌号不能为空!", null);
@@ -160,17 +161,40 @@ public class CarController {
 
         if (name != null) car.setName(name);
         if (describe != null) car.setDescribe(describe);
-        if (status != null) car.setStatus(Integer.parseInt(status));
-        if(order!=null){
+
+        if (order != null) {
             order.setCarId(car.getId());
             order.setCarName(car.getName());
             orderService.updateByPrimaryKey(order);
         }
         carService.updateByPrimaryKey(car);
         return Result.ok();
-
-
     }
 
+    /**
+     * 修改车辆状态，1配送，2空闲，3维修，状态为1时不可修改
+     * @param id
+     * @return
+     */
+    @RequestMapping("changeCarStatus")
+    public Result changeCarStatus(String id){
+        if (id == null || id.equals(""))
+            return Result.error(400, "车牌号不能为空!", null);
+
+        Car car = carService.selectByPrimaryKey(id);
+
+        if (car == null)
+            return Result.error(400, "车辆不存在!", null);
+
+        if (car.getStatus()==1) {
+            return Result.error(400, "修改失败，车辆正在配送中！");
+        } else {
+            if(car.getStatus()==2)
+            car.setStatus(3);
+            else car.setStatus(2);
+            carService.updateByPrimaryKey(car);
+            return Result.ok();
+        }
+    }
 
 }
