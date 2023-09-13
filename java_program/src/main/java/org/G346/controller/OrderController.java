@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -133,21 +134,25 @@ public class OrderController {
         User user = userService.selectByPrimaryKey(userAccount);
         if (user == null) {
             return Result.error(400, "插入失败，用户不存在！", null);
-        } else if (user.getUserName()!=userName||user.getUserPhone()!=userPhone) {
+        } else if (!Objects.equals(user.getUserName(), userName) || !Objects.equals(user.getUserPhone(), userPhone)) {
             return Result.error(400,"用户姓名或电话错误！",null);
-        }
-        Good good= goodService.selectByPrimaryKey(goodId);
-        if (good == null) {
-            return Result.error(400, "插入失败，物品不存在！", null);
-        } else if (good.getName()!=goodName) {
-            return Result.error(400,"物品名错误！",null);
         }
         Car car =carService.selectByPrimaryKey(carId);
         if (car == null) {
             return Result.error(400, "插入失败，车辆不存在！", null);
-        } else if (car.getName()!=carName) {
+        } else if (!Objects.equals(car.getName(), carName)) {
             return Result.error(400,"车辆名错误！",null);
         }
+        Good good= goodService.selectByPrimaryKey(goodId);
+        if (good == null) {
+            return Result.error(400, "插入失败，物品不存在！", null);
+        }if (!Objects.equals(good.getName(), goodName)) {
+            return Result.error(400,"物品名错误！",null);
+        }if(Integer.parseInt(goodNumber)>good.getNumber()){
+            return Result.error(400,"插入失败，剩余物品数量不足！");
+        }
+        good.setNumber(good.getNumber()-Integer.parseInt(goodNumber));
+        goodService.updateByPrimaryKey(good);
 
         int row = orderService.insertOrder(order);
         if (row > 0) {
@@ -224,7 +229,7 @@ public class OrderController {
         User user = userService.selectByPrimaryKey(userAccount);
         if (user == null) {
             return Result.error(400, "修改失败，用户不存在！", null);
-        } else if (user.getUserName()!=userName||user.getUserPhone()!=userPhone) {
+        } else if (!Objects.equals(user.getUserName(), userName) || !Objects.equals(user.getUserPhone(), userPhone)) {
             return Result.error(400,"用户姓名或电话错误！",null);
         }else {
             order.setUserAccount(userAccount);
@@ -233,19 +238,26 @@ public class OrderController {
         }
 
         Good good= goodService.selectByPrimaryKey(goodId);
+        int difference = Integer.parseInt(goodNumber)-order.getGoodNumber();
         if (good == null) {
             return Result.error(400, "修改失败，物品不存在！", null);
-        } else if (good.getName()!=goodName) {
+        } else if (!Objects.equals(good.getName(), goodName)) {
             return Result.error(400,"物品名错误！",null);
-        }else {
+        }else if(difference>good.getNumber()){
+            return Result.error(400,"物品库存不足",null);
+        }
+        else{
             order.setGoodId(goodId);
             order.setGoodName(goodName);
+            order.setGoodNumber(Integer.parseInt(goodNumber));
+            good.setNumber(good.getNumber()-difference);
+            goodService.updateByPrimaryKey(good);
         }
 
         Car car =carService.selectByPrimaryKey(carId);
         if (car == null) {
             return Result.error(400, "修改失败，车辆不存在！", null);
-        } else if (car.getName()!=carName) {
+        } else if (!Objects.equals(car.getName(), carName)) {
             return Result.error(400,"车辆名错误！",null);
         }else {
             order.setCarId(carId);
@@ -255,11 +267,10 @@ public class OrderController {
         order.setAddressPhone(addressPhone);
         order.setAddress(address);
         order.setOrderDescribe(orderDescribe);
-        order.setGoodNumber(Integer.parseInt(goodNumber));
         order.setOrderStatus(Integer.parseInt(orderStatus));
         order.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
 
-        int row = orderService.updateByPrimaryKey(order);
+        orderService.updateByPrimaryKey(order);
 
         return Result.ok();
 

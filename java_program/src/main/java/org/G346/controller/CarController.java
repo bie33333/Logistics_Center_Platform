@@ -5,6 +5,7 @@ import org.G346.pojo.Car;
 import org.G346.pojo.Car;
 import org.G346.pojo.Car;
 import org.G346.service.CarService;
+import org.G346.service.OrderService;
 import org.G346.utils.PageResult;
 import org.G346.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarController {
     @Autowired
     CarService carService;
-
+    @Autowired
+    OrderService orderService;
     /**
      * 模糊查询
      * @param pageNumber
@@ -121,11 +123,16 @@ public class CarController {
      */
     @RequestMapping("deleteCar")
     public Result deleteCar(String id) {
+        Order order = orderService.selectByCarId(id);
         if (id == null || id.equals(""))
             return Result.error(400, "车牌号不能为空!", null);
         if (carService.selectByPrimaryKey(id) == null) {
             return Result.error(400, "删除失败，车辆不存在！");
-        } else {
+        }if(order != null&&order.getOrderStatus()==1){
+
+            return Result.error(400,"删除失败，车辆存在相关订单！");
+        }
+        else {
             carService.deleteByPrimaryKey(id);
             return Result.ok();
         }
@@ -147,12 +154,18 @@ public class CarController {
         if (id == null || id.equals(""))
             return Result.error(400, "车牌号不能为空!", null);
         Car car = carService.selectByPrimaryKey(id);
+        Order order = orderService.selectByCarId(id);
         if (car == null)
             return Result.error(400, "车辆不存在!", null);
 
         if (name != null) car.setName(name);
         if (describe != null) car.setDescribe(describe);
         if (status != null) car.setStatus(Integer.parseInt(status));
+        if(order!=null){
+            order.setCarId(car.getId());
+            order.setCarName(car.getName());
+            orderService.updateByPrimaryKey(order);
+        }
         carService.updateByPrimaryKey(car);
         return Result.ok();
 

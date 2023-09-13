@@ -43,6 +43,16 @@ public class OrderService {
 
         return orderMapper.selectByPrimaryKey(id);
     }
+    public Order selectByUserAccount(String userAccount){
+
+        return orderMapper.selectByUserAccount(userAccount);
+    }public Order selectByGoodId(String id){
+
+        return orderMapper.selectByGoodId(id);
+    }public Order selectByCarId(String id){
+
+        return orderMapper.selectByCarId(id);
+    }
     public PageResult<Order> findOrderById(String id){
         List<Order> orders = orderMapper.findOrderById(id);
         return PageResult.build(orders);

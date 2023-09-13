@@ -5,6 +5,7 @@ import org.G346.pojo.Good;
 import org.G346.pojo.Good;
 import org.G346.pojo.Good;
 import org.G346.service.GoodService;
+import org.G346.service.OrderService;
 import org.G346.service.WarehouseService;
 import org.G346.utils.PageResult;
 import org.G346.utils.Result;
@@ -20,7 +21,8 @@ public class GoodController {
     GoodService goodService;
     @Autowired
     WarehouseService warehouseService;
-
+    @Autowired
+    OrderService orderService;
 
 
 
@@ -88,7 +90,8 @@ public class GoodController {
             return Result.error(400, "物品所在仓库不能为空!", null);
         if (number == null || number.equals(""))
             return Result.error(400, "物品数量不能为空!", null);
-
+        if (Integer.parseInt(number)<0)
+            return Result.error(400, "物品数量不能为负数!", null);
         Good good = new Good();
         good.setId(id);
         good.setName(name);
@@ -120,11 +123,16 @@ public class GoodController {
      */
     @RequestMapping("deleteGood")
     public Result deleteGood(String id) {
+        Order order = orderService.selectByGoodId(id);
         if (id == null || id.equals(""))
             return Result.error(400, "物品id不能为空!", null);
         if (goodService.selectByPrimaryKey(id) == null) {
             return Result.error(400, "删除失败，物品不存在！");
-        } else {
+        }if(order!=null&&order.getOrderStatus()==1){
+
+            return Result.error(400,"删除失败，物品存在相关订单！");
+        }
+        else {
             goodService.deleteByPrimaryKey(id);
             return Result.ok();
         }
@@ -137,6 +145,7 @@ public class GoodController {
         if (id == null || id.equals(""))
             return Result.error(400, "物品id不能为空!", null);
         Good good = goodService.selectByPrimaryKey(id);
+        Order order = orderService.selectByGoodId(id);
         if (good == null)
             return Result.error(400, "物品不存在!", null);
 
@@ -148,6 +157,11 @@ public class GoodController {
         }
         if (number != null) good.setNumber(Integer.parseInt(number));
         if(good_describe!=null) good.setGood_describe(good_describe);
+        if(order!=null){
+            order.setGoodId(good.getId());
+            order.setGoodName(good.getName());
+            orderService.updateByPrimaryKey(order);
+        }
         goodService.updateByPrimaryKey(good);
         return Result.ok();
 

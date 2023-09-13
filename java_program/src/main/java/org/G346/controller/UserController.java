@@ -1,7 +1,9 @@
 package org.G346.controller;
 
 import org.G346.mapper.UserMapper;
+import org.G346.pojo.Order;
 import org.G346.pojo.User;
+import org.G346.service.OrderService;
 import org.G346.service.UserService;
 import org.G346.utils.PageResult;
 import org.G346.utils.Result;
@@ -19,29 +21,31 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    OrderService orderService;
+
     /**
      * 判断用户是否登录成功
+     *
      * @return Result
      */
     @RequestMapping("userLogin")
-    public Result userLogin(String userAccount,String userPassword) {
-        if(userAccount == null || userAccount.equals(""))
+    public Result userLogin(String userAccount, String userPassword) {
+        if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
-        if(userPassword == null || userPassword.equals(""))
+        if (userPassword == null || userPassword.equals(""))
             return Result.error(400, "密码不能为空!", null);
 
         User user = userService.selectByPrimaryKey(userAccount);
-        if(user==null) {
-            return Result.error(400,"未找到用户！");
-        }
-        else{
+        if (user == null) {
+            return Result.error(400, "未找到用户！");
+        } else {
             String loginPassword = user.getUserPassword();
-            if(loginPassword.equals(userPassword)){
+            if (loginPassword.equals(userPassword)) {
 //                System.out.println("登陆成功！");
                 return Result.ok();
-            }
-            else{
-                return Result.error(400,"密码错误!");
+            } else {
+                return Result.error(400, "密码错误!");
             }
 
         }
@@ -49,38 +53,46 @@ public class UserController {
 
     /**
      * 分页查找所有用户
+     *
      * @param pageNumber
      * @param pageSize
      * @return
      */
     @RequestMapping("selectUser")
-    public PageResult<User> selectUser(String pageNumber,String pageSize) {
-        return userService.selectUser(Integer.parseInt(pageNumber),Integer.parseInt(pageSize));
+    public PageResult<User> selectUser(String pageNumber, String pageSize) {
+        return userService.selectUser(Integer.parseInt(pageNumber), Integer.parseInt(pageSize));
     }
+
     /**
      * 查找所有用户
+     *
      * @return
      */
     @RequestMapping("selectAllUser")
-    public PageResult<User> selectAllUser(){
+    public PageResult<User> selectAllUser() {
         return userService.selectAll();
     }
+
     @RequestMapping("lookupUser")
     public PageResult<User> lookupUser(String pageNumber, String pageSize
-            , String userName){
-        return userService.lookupUser(Integer.parseInt(pageNumber),Integer.parseInt(pageSize),userName);
+            , String userName) {
+        return userService.lookupUser(Integer.parseInt(pageNumber), Integer.parseInt(pageSize), userName);
     }
+
     /**
      * 根据用户名查找单个用户
+     *
      * @param userAccount
      * @return
      */
     @RequestMapping("findUserByAccount")
-    public PageResult<User> findUserByAccount(String userAccount){
-       return userService.findUserByAccount(userAccount);
+    public PageResult<User> findUserByAccount(String userAccount) {
+        return userService.findUserByAccount(userAccount);
     }
+
     /**
      * 插入用户，成功返回200，失败返回400
+     *
      * @param userAccount
      * @param userName
      * @param userPhone
@@ -91,13 +103,13 @@ public class UserController {
      * @return
      */
     @RequestMapping("insertUser")
-    public Result insertUser(String userAccount,String userName, String userPhone, String userPassword
-    ,String userAge, String userSex, String userAddress){
-        if(userAccount == null || userAccount.equals(""))
+    public Result insertUser(String userAccount, String userName, String userPhone, String userPassword
+            , String userAge, String userSex, String userAddress) {
+        if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
-        if(userPassword == null || userPassword.equals(""))
+        if (userPassword == null || userPassword.equals(""))
             return Result.error(400, "密码不能为空!", null);
-        if(userPhone == null || userPhone.equals(""))
+        if (userPhone == null || userPhone.equals(""))
             return Result.error(400, "电话不能为空!", null);
         User user = new User();
         user.setUserAccount(userAccount);
@@ -110,8 +122,8 @@ public class UserController {
             user.setUserAge(null);
         else
             user.setUserAge(Integer.parseInt(userAge));
-        if (userService.selectByPrimaryKey(userAccount)!=null) {
-            return Result.error(400,"插入用户失败,用户已存在！");
+        if (userService.selectByPrimaryKey(userAccount) != null) {
+            return Result.error(400, "插入用户失败,用户已存在！");
         } else {
             int row = userService.insertUser(user);
             if (row > 0) {
@@ -124,16 +136,24 @@ public class UserController {
 
     /**
      * 根据用户名删除用户
+     *
      * @param userAccount
      * @return
      */
     @RequestMapping("deleteUser")
-    public Result deleteUser(String userAccount){
-        if(userAccount == null || userAccount.equals(""))
+    public Result deleteUser(String userAccount) {
+        User user = userService.selectByPrimaryKey(userAccount);
+        Order order = orderService.selectByUserAccount(userAccount);
+
+        if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
-        if (userService.selectByPrimaryKey(userAccount)==null) {
-            return Result.error(400,"删除失败，用户不存在！");
-        }else {
+        if (user == null) {
+            return Result.error(400, "删除失败，用户不存在！");
+        }
+        if (order != null&&order.getOrderStatus()==1) {
+
+            return Result.error(400, "删除失败，用户已存在相关订单!");
+        } else {
             userService.deleteByPrimaryKey(userAccount);
             return Result.ok();
         }
@@ -141,6 +161,7 @@ public class UserController {
 
     /**
      * 根据用户名修改用户信息
+     *
      * @param userAccount
      * @param userName
      * @param userPhone
@@ -151,21 +172,28 @@ public class UserController {
      * @return
      */
     @RequestMapping("updateUser")
-    public Result updateUser(String userAccount,String userName, String userPhone, String userPassword
-            ,String userAge, String userSex, String userAddress) {
-        if(userAccount == null || userAccount.equals(""))
+    public Result updateUser(String userAccount, String userName, String userPhone, String userPassword
+            , String userAge, String userSex, String userAddress) {
+        if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
         User user = userService.selectByPrimaryKey(userAccount);
-        if(user==null)
+        Order order = orderService.selectByUserAccount(userAccount);
+
+        if (user == null)
             return Result.error(400, "用户不存在!", null);
 
-        if(userName!=null) user.setUserName(userName);
-        if(userAddress!=null)user.setUserAddress(userAddress);
-        if(userSex!=null)user.setUserSex(userSex);
-        if (userAge != null)user.setUserAge(Integer.parseInt(userAge));
-        if(userPassword!=null)user.setUserPassword(userPassword);
-        if(userPhone!=null)user.setUserPhone(userPhone);
-
+        if (userName != null) user.setUserName(userName);
+        if (userAddress != null) user.setUserAddress(userAddress);
+        if (userSex != null) user.setUserSex(userSex);
+        if (userAge != null) user.setUserAge(Integer.parseInt(userAge));
+        if (userPassword != null) user.setUserPassword(userPassword);
+        if (userPhone != null) user.setUserPhone(userPhone);
+        if (order != null) {
+            order.setUserAccount(user.getUserAccount());
+            order.setUserName(user.getUserName());
+            order.setUserPhone(user.getUserPhone());
+            orderService.updateByPrimaryKey(order);
+        }
         userService.updateByPrimaryKey(user);
         return Result.ok();
 
