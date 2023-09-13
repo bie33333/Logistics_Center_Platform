@@ -56,7 +56,7 @@
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-                <el-button type="warning">完成订单</el-button>
+                <el-button v-if="scope.row.orderStatus === 1" type="warning">完成订单</el-button>
               </template>
             </el-table-column>
           </el-table>

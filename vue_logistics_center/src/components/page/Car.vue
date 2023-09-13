@@ -32,7 +32,8 @@
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-                <el-button type="info">维修</el-button>
+                <el-button v-if="scope.row.status === 2" type="warning">维修</el-button>
+                <el-button v-if="scope.row.status === 3" type="info">结束维修</el-button>
               </template>
             </el-table-column>
           </el-table>
