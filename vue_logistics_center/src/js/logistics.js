@@ -25,24 +25,24 @@ export const logisticRule = function() {
         // { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' }
       ],
 
-      userName: [
-        { required: true, message: '请输入用户名称', trigger: 'blur' },
-        // { min: 2, max: 15, message: '长度在2至15个字符之间', trigger: 'blur' }
-      ],
+      // userName: [
+      //   { required: true, message: '请输入用户名称', trigger: 'blur' },
+      //   // { min: 2, max: 15, message: '长度在2至15个字符之间', trigger: 'blur' }
+      // ],
 
-      userPhone: [
-        { required: true, message: '请输入联系电话', trigger: 'blur' },
-        // { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
-      ],
+      // userPhone: [
+      //   { required: true, message: '请输入联系电话', trigger: 'blur' },
+      //   // { min: 11, max: 11, message: '长度为11位', trigger: 'blur' },
+      // ],
 
       goodId: [
         { required: true, message: '请输入物品编号', trigger: 'blur' },
         // { min: 2, max: 10, message: '长度在2至10个字符之间', trigger: 'blur' },
       ],
 
-      goodName: [
-        { required: true, message: '请输入物品名称', trigger: 'blur' },
-      ],
+      // goodName: [
+      //   { required: true, message: '请输入物品名称', trigger: 'blur' },
+      // ],
 
       goodNumber: [
         { required: true, message: '请输入物品数量', trigger: 'blur' },
@@ -65,9 +65,9 @@ export const logisticRule = function() {
         { required: true, message: '请输入车辆编号', trigger: 'blur' },
       ],
 
-      carName: [
-        { required: true, message: '请输入车辆名称', trigger: 'blur' },
-      ],
+      // carName: [
+      //   { required: true, message: '请输入车辆名称', trigger: 'blur' },
+      // ],
 
       orderStatus:[
         { required: true, message: '请选择订单状态', trigger: 'change' },
