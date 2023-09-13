@@ -12,8 +12,12 @@
                 <img src="../../assets/img/admin.png"/>
             </div>
             <!-- 用户名下拉菜单 -->
-            <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-                <span class="dropdown-link">{{ id }}<i class="el-icon-caret-bottom"></i></span>
+            <el-dropdown v-if=" user !== null" class="user-name" trigger="click" @command="handleCommand">
+                <span class="dropdown-link">{{ user.userAccount }}<i class="el-icon-caret-bottom"></i></span>
+                <el-dropdown-menu slot="dropdown"><el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item></el-dropdown-menu>
+            </el-dropdown>
+            <el-dropdown v-else class="user-name" trigger="click" @command="handleCommand">
+                <span class="dropdown-link">{{ admin.account }}<i class="el-icon-caret-bottom"></i></span>
                 <el-dropdown-menu slot="dropdown"><el-dropdown-item divided command="loginOut">退出登录</el-dropdown-item></el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -27,7 +31,9 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            defaultManagerId: 'admin'
+            defaultManagerId: 'admin',
+            user: JSON.parse(localStorage.getItem('user')),
+            admin: JSON.parse(localStorage.getItem('manager'))
         };
     },
     computed: {
