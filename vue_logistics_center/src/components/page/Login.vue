@@ -22,10 +22,7 @@
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
-                </div>
-                <div class="login-btn">
-                    <el-button type="success" @click="getMethod('addButton')">注册</el-button>
-                </div>               
+                </div>             
             </el-form>
         </div>
 
