@@ -17,7 +17,7 @@ export default new Router({
         {
             path: '/index', component: ()=> import('../components/common/Home.vue'),
             name: 'index',
-            redirect: '/index/dashboard',
+            redirect: '/index/personalCenter',
             children: [
                 { path: 'dashboard', component: ()=> import('../components/page/Dashboard.vue'), meta: {title: '系统首页'}},
                 { path: 'member', component: ()=> import('../components/page/Member.vue'), meta: {title: '用户管理'}},

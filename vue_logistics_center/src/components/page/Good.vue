@@ -132,8 +132,7 @@ export default {
         getEasyMethod(this, type, row, group.methodGroup, group.msgGroup);
       }
     },
-
-    mounted: {
+    mounted() {
     },
 }
 </script>

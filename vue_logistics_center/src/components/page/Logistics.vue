@@ -56,7 +56,7 @@
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-                <el-button v-if="scope.row.orderStatus === 1" type="warning">完成订单</el-button>
+                <el-button v-if="scope.row.orderStatus === 1" type="warning" @click="complete(scope.row)">完成订单</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -156,8 +156,8 @@
 </template>
 
 <script>
-import { logisticRule,logisticForm,logisticGroup } from "@/js/logistics.js";
-import { getEasyMethod } from "@/utils/common.js";
+import { logisticRule,logisticForm,logisticGroup,completeOrder } from "@/js/logistics.js";
+import { getEasyMethod,handleRes } from "@/utils/common.js";
 export default {
   data() {
     return {
@@ -196,6 +196,12 @@ export default {
     getMethod(type,row){
       var group = logisticGroup();
       getEasyMethod(this,type,row,group.methodGroup,group.msgGroup);
+    },
+    complete(row){
+      console.log(row)
+      completeOrder(row).then(
+        handleRes(this,"订单完成",()=>this.getMethod('search'))
+      )
     }
   },
 }

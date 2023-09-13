@@ -79,3 +79,7 @@ export const carGroup = function() {
           }
     }
 }
+
+export const carChangeStatus = query=>{
+    return request({url:"changeCarStatus",method:'post',params:query})
+}

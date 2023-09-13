@@ -6,11 +6,11 @@
             <my-tag></my-tag>
             <div class="content">
                 <transition name="move" mode="out-in">
-                    <keep-alive :include="tagsList">
+                    <!-- <keep-alive :include="tagsList"> -->
                         <router-view></router-view>
-                    </keep-alive>
+                    <!-- </keep-alive> -->
                 </transition>
-                <el-back-top target=".content"></el-back-top>
+                <!-- <el-back-top target=".content"></el-back-top> -->
             </div>
         </div>
     </div>

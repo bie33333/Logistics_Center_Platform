@@ -158,7 +158,7 @@ public class OrderController {
      */
     @RequestMapping("completeOrder")
     public Result completeOrder(String id){
-        Order order = orderService.selectByUserAccount(id);
+        Order order = orderService.selectByPrimaryKey(id);
         if (id == null || id.equals(""))
             return Result.error(400, "id不能为空!", null);
         if (order == null) {

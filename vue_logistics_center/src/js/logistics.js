@@ -122,3 +122,7 @@ export const logisticGroup = function() {
         }
   }
 }
+
+export const completeOrder = query=>{
+    return request({url:"completeOrder",method:'get',params:query})
+}

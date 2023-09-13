@@ -42,7 +42,11 @@ export default {
             if (item) {
                 delItem.path === this.$route.fullPath && this.$router.push(item.path);
             }else{
-                this.$router.push('/');
+                if(this.$route.path!='/index/personalCenter'){
+                    this.$router.push({
+                        path:'/index/personalCenter',
+                    })
+                }
             }
         },
         addTags(route){
@@ -68,7 +72,12 @@ export default {
         },
         closeAll(){
                 this.tagsList = [];
-                this.$router.push('/');
+                // this.$router.push('/index');
+                if(this.$route.path!='/index/personalCenter'){
+                    this.$router.push({
+                        path:'/index/personalCenter',
+                    })
+                }
             },
     },
     watch: {

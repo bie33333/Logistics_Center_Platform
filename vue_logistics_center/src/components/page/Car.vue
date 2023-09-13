@@ -32,8 +32,8 @@
               <template slot-scope="scope">
                 <el-button type="success" @click="getMethod('updateButton',scope.row)">修改</el-button>
                 <el-button type="danger" @click="getMethod('delete',scope.row)">删除</el-button>
-                <el-button v-if="scope.row.status === 2" type="warning">维修</el-button>
-                <el-button v-if="scope.row.status === 3" type="info">结束维修</el-button>
+                <el-button v-if="scope.row.status === 2" type="warning" @click="maintainStatus(scope.row)">维修</el-button>
+                <el-button v-if="scope.row.status === 3" type="info" @click="changeStatus(scope.row)">结束维修</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -92,8 +92,8 @@
 </template>
 
 <script>
-import { carRules, carForm, statusList, carGroup, lookupCar } from "@/js/car.js";
-import { getEasyMethod } from "@/utils/common.js";
+import { carRules, carForm, statusList, carGroup, carChangeStatus } from "@/js/car.js";
+import { getEasyMethod,handleRes } from "@/utils/common.js";
 export default {
   filters: {
     statusFilter(status){
@@ -130,7 +130,7 @@ export default {
         rules: '',
         pageSet: {
           pageNumber: 0,
-          pageSize: 2,
+          pageSize: 5,
           pageTotal: 0,
         }
       }
@@ -143,9 +143,19 @@ created() {
     getMethod(type, row){
       var group = carGroup();
       getEasyMethod(this, type, row, group.methodGroup, group.msgGroup);
+    },
+    maintainStatus(row){
+      carChangeStatus(row).then(
+        handleRes(this,"维修",()=>this.getMethod('search'))
+      )
+    },
+    changeStatus(row){
+      carChangeStatus(row).then(
+        handleRes(this,"维修结束",()=>this.getMethod('search'))
+      )
     }
   },
-  mounted: {
+  mounted() {
   },
 }
 </script>
