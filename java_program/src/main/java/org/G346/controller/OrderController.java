@@ -128,7 +128,7 @@ public class OrderController {
         if (car == null) {
             return Result.error(400, "插入失败，车辆不存在！", null);
         }
-        if (car.getStatus()==1) {
+        if (car.getStatus()==1||car.getStatus()==3) {
             return Result.error(400,"车辆已被占用！",null);
         } else {
             car.setStatus(1);
