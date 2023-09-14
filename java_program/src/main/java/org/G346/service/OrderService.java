@@ -43,13 +43,13 @@ public class OrderService {
 
         return orderMapper.selectByPrimaryKey(id);
     }
-    public Order selectByUserAccount(String userAccount){
+    public List<Order> selectByUserAccount(String userAccount){
 
         return orderMapper.selectByUserAccount(userAccount);
-    }public Order selectByGoodId(String id){
+    }public List<Order> selectByGoodId(String id){
 
         return orderMapper.selectByGoodId(id);
-    }public Order selectByCarId(String id){
+    }public List<Order> selectByCarId(String id){
 
         return orderMapper.selectByCarId(id);
     }

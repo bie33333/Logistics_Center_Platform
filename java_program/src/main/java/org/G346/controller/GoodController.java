@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class GoodController {
@@ -123,19 +125,20 @@ public class GoodController {
      */
     @RequestMapping("deleteGood")
     public Result deleteGood(String id) {
-        Order order = orderService.selectByGoodId(id);
+        List<Order> orders = orderService.selectByGoodId(id);
         if (id == null || id.equals(""))
             return Result.error(400, "物品id不能为空!", null);
         if (goodService.selectByPrimaryKey(id) == null) {
             return Result.error(400, "删除失败，物品不存在！");
-        }if(order!=null&&order.getOrderStatus()==1){
-
-            return Result.error(400,"删除失败，物品存在相关订单！");
         }
-        else {
+        for(Order order:orders){
+        if(order!=null&&order.getOrderStatus()==1){
+            return Result.error(400,"删除失败，物品存在相关订单！");
+        }}
+
             goodService.deleteByPrimaryKey(id);
             return Result.ok();
-        }
+
     }
 
     @RequestMapping("updateGood")
@@ -145,7 +148,7 @@ public class GoodController {
         if (id == null || id.equals(""))
             return Result.error(400, "物品id不能为空!", null);
         Good good = goodService.selectByPrimaryKey(id);
-        Order order = orderService.selectByGoodId(id);
+        List<Order> orders = orderService.selectByGoodId(id);
         if (good == null)
             return Result.error(400, "物品不存在!", null);
 
@@ -157,11 +160,12 @@ public class GoodController {
         }
         if (number != null) good.setNumber(Integer.parseInt(number));
         if(good_describe!=null) good.setGood_describe(good_describe);
-        if(order!=null){
+        for (Order order:orders)
+        {if(order!=null){
             order.setGoodId(good.getId());
             order.setGoodName(good.getName());
             orderService.updateByPrimaryKey(order);
-        }
+        }}
         goodService.updateByPrimaryKey(good);
         return Result.ok();
 

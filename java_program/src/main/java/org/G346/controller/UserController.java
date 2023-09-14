@@ -143,20 +143,21 @@ public class UserController {
     @RequestMapping("deleteUser")
     public Result deleteUser(String userAccount) {
         User user = userService.selectByPrimaryKey(userAccount);
-        Order order = orderService.selectByUserAccount(userAccount);
+        List<Order> orders = orderService.selectByUserAccount(userAccount);
 
         if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
         if (user == null) {
             return Result.error(400, "删除失败，用户不存在！");
         }
+        for(Order order:orders){
         if (order != null&&order.getOrderStatus()==1) {
 
             return Result.error(400, "删除失败，用户已存在相关订单!");
-        } else {
+        } }
             userService.deleteByPrimaryKey(userAccount);
             return Result.ok();
-        }
+
     }
 
     /**
@@ -177,7 +178,7 @@ public class UserController {
         if (userAccount == null || userAccount.equals(""))
             return Result.error(400, "用户名不能为空!", null);
         User user = userService.selectByPrimaryKey(userAccount);
-        Order order = orderService.selectByUserAccount(userAccount);
+        List<Order> orders= orderService.selectByUserAccount(userAccount);
 
         if (user == null)
             return Result.error(400, "用户不存在!", null);
@@ -188,12 +189,12 @@ public class UserController {
         if (userAge != null) user.setUserAge(Integer.parseInt(userAge));
         if (userPassword != null) user.setUserPassword(userPassword);
         if (userPhone != null) user.setUserPhone(userPhone);
-        if (order != null) {
+        for(Order order:orders){if (order != null) {
             order.setUserAccount(user.getUserAccount());
             order.setUserName(user.getUserName());
             order.setUserPhone(user.getUserPhone());
             orderService.updateByPrimaryKey(order);
-        }
+        }}
         userService.updateByPrimaryKey(user);
         return Result.ok();
 

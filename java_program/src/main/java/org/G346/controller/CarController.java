@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 public class CarController {
@@ -155,18 +157,18 @@ public class CarController {
         if (id == null || id.equals(""))
             return Result.error(400, "车牌号不能为空!", null);
         Car car = carService.selectByPrimaryKey(id);
-        Order order = orderService.selectByCarId(id);
+        List<Order> orders= orderService.selectByCarId(id);
         if (car == null)
             return Result.error(400, "车辆不存在!", null);
 
         if (name != null) car.setName(name);
         if (describe != null) car.setDescribe(describe);
-
+        for (Order order:orders){
         if (order != null) {
             order.setCarId(car.getId());
             order.setCarName(car.getName());
             orderService.updateByPrimaryKey(order);
-        }
+        }}
         carService.updateByPrimaryKey(car);
         return Result.ok();
     }
