@@ -178,6 +178,8 @@ public class OrderController {
 
         if (id == null || id.equals(""))
             return Result.error(400, "id不能为空!", null);
+        if(order.getOrderStatus()==1)
+            return Result.error(400, "请点击完成订单后再删除!", null);
         if (order == null) {
             return Result.error(400, "删除失败，订单不存在！");
         } else {
