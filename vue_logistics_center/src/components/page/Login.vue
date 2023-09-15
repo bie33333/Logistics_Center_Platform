@@ -4,9 +4,9 @@
             <div class="ms-title">企业物流中心平台</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item>
-                    <el-select v-model="param.role" clearable placeholder="登录角色">
+                    <el-select v-model="param.role" clearable placeholder="管理员">
                     <el-option key="0" label="管理员" value="manager"></el-option>
-                    <el-option key="1" label="用户" value="user"></el-option>
+                    <!-- <el-option key="1" label="用户" value="user"></el-option> -->
                 </el-select>
                 </el-form-item>
                 <el-form-item prop="username">
@@ -92,6 +92,7 @@ export default {
     },
     methods:{
         submitForm(){
+            this.param.role = "manager"
             if (this.param.role == "manager") {
                 this.handleManagerLogin();
             }else if(this.param.role == "user"){
@@ -148,7 +149,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url(../../assets/img/login-bg.jpg);
+    background-image: url(../../assets/img/login-bg2.jpg);
     background-size: 120%;
     background-position:center;
 }

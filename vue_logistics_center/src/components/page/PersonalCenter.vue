@@ -54,21 +54,21 @@
             <el-descriptions-item>
               <template slot="label">
                 <i class="el-icon-user"></i>
-                用户名
+                账号
               </template>
                 {{ admin.account }}
             </el-descriptions-item>
             <el-descriptions-item>
                 <template slot="label">
                 <i class="el-icon-user"></i>
-                  姓名
+                  用户名
                 </template>
                 {{ admin.name }}
               </el-descriptions-item>
             <el-descriptions-item>
               <template slot="label">
                 <i class="el-icon-mobile-phone"></i>
-                手机号
+                电话号
               </template>
               {{ admin.phone }}
             </el-descriptions-item>

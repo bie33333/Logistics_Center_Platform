@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+//@RestController 是 @Controller 和 @ResponseBody 两个注解的结合体。
+//@CrossOrigin实现Cross-Origin Resource Sharing跨域资源共享
 @RestController
 @CrossOrigin
 public class OrderController {
@@ -31,6 +33,7 @@ public class OrderController {
     CarService carService;
 
 
+    //@RequestMapping将任意HTTP 请求映射到控制器方法
     @RequestMapping("selectOrder")
     public PageResult<Order> selectOrder(String pageNumber, String pageSize) {
         return orderService.selectOrder(Integer.parseInt(pageNumber), Integer.parseInt(pageSize));
