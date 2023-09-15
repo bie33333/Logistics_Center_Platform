@@ -3,7 +3,7 @@ package org.G346.controller;
 
 import org.G346.pojo.*;
 import org.G346.pojo.Order;
-import org.G346.pojo.Order;
+
 import org.G346.service.CarService;
 import org.G346.service.GoodService;
 import org.G346.service.UserService;

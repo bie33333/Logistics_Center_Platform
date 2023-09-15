@@ -5,8 +5,8 @@
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item>
                     <el-select v-model="param.role" clearable placeholder="登录角色">
-                    <el-option key="0" label="manager" value="manager"></el-option>
-                    <el-option key="1" label="user" value="user"></el-option>
+                    <el-option key="0" label="管理员" value="manager"></el-option>
+                    <el-option key="1" label="用户" value="user"></el-option>
                 </el-select>
                 </el-form-item>
                 <el-form-item prop="username">
@@ -148,8 +148,9 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    /* background-image: url(../../assets/img/login-bg.jpg); */
-    background-size: 100%;
+    background-image: url(../../assets/img/login-bg.jpg);
+    background-size: 120%;
+    background-position:center;
 }
 .ms-title {
     width: 100%;
@@ -161,12 +162,13 @@ export default {
 }
 .ms-login {
     position: absolute;
+    
     left: 50%;
     top: 50%;
     width: 350px;
     margin: -190px 0 0 -175px;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 1);
     overflow: hidden;
 }
 .ms-content {
